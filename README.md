@@ -72,24 +72,32 @@ flowchart LR
 
 ## Что даёт на практике: −48 % токенов на большом логе
 
-<img src="./03_token_savings.png" alt="Экономия токенов: A/B на большом логе — −48 % входных токенов, −58 % пика контекста" width="100%">
+<img src="./03_token_savings.png" alt="Экономия токенов с Laya: три сценария — без движка 2 800 000, без плагина 992 037, движок + плагин 513 614 (A/B: −48 %)" width="100%">
 
-Замер: разбор лога на **7 000 строк (358 КБ)** субагентом в двух режимах — «читать
-целиком» против «сначала триаж и ранжирование, потом чтение только нужного».
-Медианы контрольных прогонов:
+Три сценария на одном и том же типе задачи (разбор лога, медианы контрольных
+прогонов A/B, лог 358 КБ / 7 000 строк):
 
-| Показатель | Без плагина | С плагином | Δ |
-|---|---|---|---|
-| Сумма входных токенов | 992 037 | **513 614** | **−48 %** |
-| Пик контекста | 223 663 | **94 455** | **−58 %** |
-| Время вызовов модели | 23,8 с | 23,5 с | ≈0 |
-| Полнота ответа | 3/3 | 3/3 | = |
+| Сценарий | Сумма входных токенов | Что это |
+|---|---|---|
+| **Без движка** | 2 800 000 | замер пользователя; условия с A/B не сопоставлялись |
+| **Без плагина** | 992 037 | базовая линия A/B проекта (артефакт читается целиком) |
+| **Движок + плагин v2** | **513 614** | триаж, дедупликация и отбор контекста до чтения |
 
-Честные оговорки, без которых график обманчив: на **маленьком** логе (влезает в
-одно чтение) инструмент добавляет round-trip и проигрывает (+73 %), а поиск по
-20 попаданиям даёт паритет. **Правило окупаемости:** отбор контекста оправдан,
-только если он *заменяет* чтение целиком. Полная методика, сырые журналы и
-формулы — [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
+- **−48 %** — относительно базовой линии A/B (992 037 → 513 614): та же задача,
+  те же условия, те же субагенты.
+- **−81,7 %** — относительно 2 800 000: арифметика по двум разным замерам, где
+  сопоставимость условий **не проверена**; число приведено как ориентир масштаба,
+  а не как измеренный эффект.
+- Пик контекста в том же A/B: 223 663 → **94 455** (**−58 %**), время вызовов
+  модели не изменилось (23,8 → 23,5 с), полнота ответов 26/26.
+
+Честные оговорки, без которых график обманчив: проценты относятся к **входным
+токенам**, а не к счёту (денежная экономия зависит от кэша, выходных токенов и
+тарифа); на **маленьком** логе (влезает в одно чтение) инструмент добавляет
+round-trip и проигрывает (+73 %), а поиск по 20 попаданиям даёт паритет.
+**Правило окупаемости:** отбор контекста оправдан, только если он *заменяет*
+чтение целиком. Полная методика, сырые журналы и формулы —
+[docs/BENCHMARKS.md](docs/BENCHMARKS.md).
 
 ## Как использовать с пользой
 
@@ -297,22 +305,31 @@ flowchart LR
 
 ## Measured effect: −48 % tokens on a large log
 
-<img src="./03_token_savings.png" alt="Token savings: A/B on a large log — −48% input tokens, −58% peak context" width="100%">
+<img src="./03_token_savings.png" alt="Token savings with Laya: three scenarios — no engine 2,800,000; no plugin 992,037; engine + plugin 513,614 (A/B: −48%)" width="100%">
 
-Parsing a **7,000-line (358 KB) log** with a subagent in two modes: "read it whole"
-vs "triage and rank first, then read only what matters". Medians:
+Three scenarios for the same task type (log analysis; medians of the project's A/B
+runs, 358 KB / 7,000-line log):
 
-| Metric | Without plugin | With plugin | Δ |
-|---|---|---|---|
-| Sum of input tokens | 992,037 | **513,614** | **−48 %** |
-| Peak context | 223,663 | **94,455** | **−58 %** |
-| Model time | 23.8 s | 23.5 s | ≈0 |
-| Answer completeness | 3/3 | 3/3 | = |
+| Scenario | Sum of input tokens | What it is |
+|---|---|---|
+| **No engine** | 2,800,000 | a user measurement; conditions were not matched to the A/B |
+| **No plugin** | 992,037 | the project's A/B baseline (artifact read whole) |
+| **Engine + plugin v2** | **513,614** | triage, dedup and context selection before reading |
 
-Honest caveats: on a **small** log (fits in one read) the tool adds a round-trip
-and loses (+73 %); repository search over ~20 hits is at parity. **Payoff rule:**
-selection is worth it only when it *replaces* a full read.
-Full method, raw journals and formulas: [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
+- **−48 %** against the A/B baseline (992,037 → 513,614): same task, same
+  conditions, same subagents.
+- **−81.7 %** against 2,800,000: arithmetic across two different measurements
+  whose conditions were **not verified to be comparable** — a scale indicator,
+  not a measured effect.
+- Peak context in the same A/B: 223,663 → **94,455** (**−58 %**); model time
+  unchanged (23.8 → 23.5 s); answer completeness 26/26.
+
+Honest caveats: the percentages are about **input tokens**, not about the bill
+(pricing depends on cache, output tokens and tariff); on a **small** log (fits in
+one read) the tool adds a round-trip and loses (+73 %); repository search over
+~20 hits is at parity. **Payoff rule:** selection is worth it only when it
+*replaces* a full read. Full method, raw journals and formulas:
+[docs/BENCHMARKS.md](docs/BENCHMARKS.md).
 
 ## Using it well
 

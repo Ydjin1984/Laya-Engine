@@ -60,6 +60,19 @@ curl -s http://127.0.0.1:8095/benchmark -H 'Content-Type: application/json' -d '
 
 Или разложить латентность по вопросам/длине состояния: `node tools/latency_probe.mjs`.
 
+## Три сценария (иллюстрация `03_token_savings.png`)
+
+| Сценарий | Сумма входных токенов | Что это |
+|---|---|---|
+| Без движка | 2 800 000 | замер пользователя, условия с A/B не сопоставлялись |
+| Без плагина | 992 037 | базовая линия A/B проекта |
+| Движок + плагин v2 | 513 614 | −48 % к базовой линии A/B |
+
+Двузначные выводы из этой картинки читаются так: **−48 %** — измеренный эффект
+(одинаковые условия, медианы прогонов); **−81,7 %** — арифметика относительно
+отдельного замера пользователя, сопоставимость условий не проверена, поэтому это
+ориентир масштаба, а не результат. Проценты относятся к входным токенам, не к счёту.
+
 ## Экономия токенов: A/B плагина ZCode
 
 Метод: каждая задача решалась субагентом `general-purpose` в двух режимах —
@@ -145,6 +158,19 @@ fits into 4 GB and does not pin the card).
 Cost model (ORT profiler): time is **linear in input tokens** (≈1 ms/token on
 the GTX 1650, ≈3 ms overhead), all operators run on CUDA, and the request cost is
 driven by the number of questions and the state length, not by concurrency.
+
+## Three scenarios (illustration `03_token_savings.png`)
+
+| Scenario | Sum of input tokens | What it is |
+|---|---|---|
+| No engine | 2,800,000 | a user measurement; conditions not matched to the A/B |
+| No plugin | 992,037 | the project's A/B baseline |
+| Engine + plugin v2 | 513,614 | −48 % against the A/B baseline |
+
+How to read the two digits: **−48 %** is a measured effect (same conditions,
+medians of runs); **−81.7 %** is arithmetic against a separate user measurement
+whose conditions were not verified — a scale indicator, not a result. Both refer
+to input tokens, not to the bill.
 
 ## Token savings: the ZCode plugin A/B
 
