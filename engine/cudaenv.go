@@ -46,6 +46,25 @@ func defaultCUDALibDirs() []string {
 	// Рабочий каталог (запуск из корня движка).
 	out = append(out, filepath.Join("third_party", "cuda12"))
 
+	// Подъём вверх по дереву от рабочего каталога: `go test ./engine/` и любой
+	// запуск из подкаталога временного бинаря (temp-каталог go build) должны
+	// находить third_party/cuda12 у корня проекта без LAYA_CUDA_DLL_DIRS.
+	if cwd, err := os.Getwd(); err == nil {
+		dir := cwd
+		for i := 0; i < 6; i++ {
+			parent := filepath.Dir(dir)
+			if parent == dir {
+				break
+			}
+			dir = parent
+			cand := filepath.Join(dir, "third_party", "cuda12")
+			if st, err := os.Stat(cand); err == nil && st.IsDir() {
+				out = append(out, cand)
+				break
+			}
+		}
+	}
+
 	// Пакеты Python nvidia-*: cudnn, cublas, cuda_runtime, cufft.
 	roots := []string{}
 	if v := os.Getenv("LAYA_PY_SITE"); v != "" {

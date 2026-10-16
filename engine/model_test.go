@@ -5,8 +5,11 @@ import (
 	"encoding/json"
 	"math"
 	"os"
+	"path"
 	"path/filepath"
+	"sort"
 	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -102,24 +105,37 @@ func findEngineFile(t *testing.T, env, rel, abs string) string {
 	return ""
 }
 
+// refModelOK проверяет, что эталон снят на тех же весах, которые проверяются.
+// Файл эталона хранит путь к модели, которой он снят; сверка fp16-движка с
+// int8-эталоном давала тысячи «расхождений», неотличимых от бага движка, хотя
+// расходились сами модели.
+func refModelOK(t *testing.T, refPath, modelPath string) bool {
+	t.Helper()
+	raw, err := os.ReadFile(refPath)
+	if err != nil {
+		return false
+	}
+	var meta struct {
+		Model string `json:"model"`
+	}
+	if err := json.Unmarshal(raw, &meta); err != nil || meta.Model == "" {
+		return false
+	}
+	// Пути в эталонах записаны по-разному (Windows-бэкслеши, относительные):
+	// сравниваются только имена файлов.
+	base := func(p string) string {
+		return path.Base(strings.ReplaceAll(p, `\`, "/"))
+	}
+	return base(meta.Model) == base(modelPath)
+}
+
 // TestDecideMatchesPythonReference — сквозная сверка Go-движка с эталоном:
 // сборка последовательности, ONNX-инференс, температурное масштабирование и
 // декодирование должны совпасть. Здесь ловится любое расхождение в препроцессинге:
 // оно не даёт ошибки, а тихо меняет ответ.
 func TestDecideMatchesPythonReference(t *testing.T) {
 	if os.Getenv("LAYA_HEAVY") == "" {
-		t.Skip("тяжёлый тест: нужен LAYA_HEAVY=1 (загружает ONNX-модель 873 МБ)")
-	}
-	casesPath := findEngineFile(t, "LAYA_CASES", filepath.Join("..", "tools", "cases.json"), `D:\Laya_Engine\tools\cases.json`)
-	refPath := findEngineFile(t, "LAYA_REF_ANSWERS", filepath.Join("..", "tools", "ref_answers.json"), `D:\Laya_Engine\tools\ref_answers.json`)
-	if casesPath == "" || refPath == "" {
-		t.Skip("cases.json или ref_answers.json не найдены — эталон не снят")
-	}
-	modelPath := findEngineFile(t, "LAYA_MODEL", filepath.Join("..", "models", "multilingual-fp16.onnx"), `D:\Laya_Engine\models\multilingual-fp16.onnx`)
-	tokPath := findEngineFile(t, "LAYA_TOKENIZER", filepath.Join("..", "models", "tokenizer.json"), `D:\Laya_Engine\models\tokenizer.json`)
-	dllPath := findEngineFile(t, "LAYA_ORT", filepath.Join("..", "bin", "onnxruntime.dll"), `D:\Laya_Engine\bin\onnxruntime.dll`)
-	if modelPath == "" || tokPath == "" {
-		t.Skip("модель или токенизатор не найдены")
+		t.Skip("тяжёлый тест: нужен LAYA_HEAVY=1 (загружает ONNX-модель 617 МБ)")
 	}
 	device := os.Getenv("LAYA_DEVICE")
 	if device == "" {
@@ -132,6 +148,49 @@ func TestDecideMatchesPythonReference(t *testing.T) {
 		}
 	}
 
+	casesPath := findEngineFile(t, "LAYA_CASES", filepath.Join("..", "tools", "cases.json"), `D:\Laya_Engine\tools\cases.json`)
+	modelPath := findEngineFile(t, "LAYA_MODEL", filepath.Join("..", "models", "multilingual-fp16.onnx"), `D:\Laya_Engine\models\multilingual-fp16.onnx`)
+	tokPath := findEngineFile(t, "LAYA_TOKENIZER", filepath.Join("..", "models", "tokenizer.json"), `D:\Laya_Engine\models\tokenizer.json`)
+	dllPath := findEngineFile(t, "LAYA_ORT", filepath.Join("..", "bin", "onnxruntime.dll"), `D:\Laya_Engine\bin\onnxruntime.dll`)
+	if casesPath == "" || modelPath == "" || tokPath == "" {
+		t.Skip("cases.json, модель или токенизатор не найдены — эталон не снят")
+	}
+
+	// Эталон обязан совпадать с проверяемыми весами. Файлы различаются:
+	//   ref_answers.json       — int8-экспорт (ИСПОРЧЕН квантованием головы; не эталон)
+	//   ref_answers_fp16.json  — fp16 на CPU
+	//   ref_answers_gpu.json   — fp16 на GPU
+	// Сверка fp16-движка с int8-эталоном давала тысячи «расхождений», которые
+	// выглядели как баг движка, хотя расходились модели. Поэтому здесь два
+	// независимых предохранителя: порядок кандидатов по устройству и проверка
+	// поля model в самом файле эталона.
+	refPath := os.Getenv("LAYA_REF_ANSWERS")
+	if refPath == "" {
+		var candidates []string
+		if device == DeviceCPU {
+			candidates = []string{"ref_answers_fp16.json", "ref_answers_gpu.json"}
+		} else {
+			candidates = []string{"ref_answers_gpu.json", "ref_answers_fp16.json"}
+		}
+		for _, name := range candidates {
+			p := findEngineFile(t, "", filepath.Join("..", "tools", name), `D:\Laya_Engine\tools\`+name)
+			if p == "" {
+				continue
+			}
+			if refModelOK(t, p, modelPath) {
+				refPath = p
+				break
+			}
+		}
+		if refPath == "" {
+			t.Skip("нет эталона, снятого на проверяемых весах: нужен ref_answers_fp16.json " +
+				"или ref_answers_gpu.json для multilingual-fp16.onnx (tools/ref_decide.py)")
+		}
+	} else if !refModelOK(t, refPath, modelPath) {
+		t.Skipf("эталон %s снят на другой модели — сверка бессмысленна", filepath.Base(refPath))
+	}
+	t.Logf("эталон: %s", filepath.Base(refPath))
+
 	rawCases, err := os.ReadFile(casesPath)
 	if err != nil {
 		t.Fatalf("cases.json: %v", err)
@@ -143,10 +202,10 @@ func TestDecideMatchesPythonReference(t *testing.T) {
 	var ref refFile
 	rawRef, err := os.ReadFile(refPath)
 	if err != nil {
-		t.Fatalf("ref_answers.json: %v", err)
+		t.Fatalf("%s: %v", filepath.Base(refPath), err)
 	}
 	if err := json.Unmarshal(rawRef, &ref); err != nil {
-		t.Fatalf("разбор ref_answers.json: %v", err)
+		t.Fatalf("разбор %s: %v", filepath.Base(refPath), err)
 	}
 
 	qids, questions := loadQuestions(t, cf.Questions)
@@ -170,11 +229,16 @@ func TestDecideMatchesPythonReference(t *testing.T) {
 	defer m.Close()
 	t.Logf("устройство: %s (карта #%d)", m.Device(), deviceID)
 
-	// Допуск выше, чем на CPU: на GPU модель считает в нативном fp16, а эталон
-	// снят на CPU (где fp16-веса приводятся к fp32). Разница — только округление.
+	// Допуск: GPU считает в нативном fp16, эталон может быть снят на CPU
+	// (fp16-веса приводятся к fp32) или на другой видеокарте — разница только в
+	// округлении и порядке суммирования, поэтому допуск 1e-2.
 	const tol = 1e-2
+	// nearTieGap — разрыв лидеров, при котором выбор варианта неустойчив к
+	// аппаратным различиям (см. ветку route ниже).
+	const nearTieGap = 1e-2
 	mismatches := 0
 	choiceMismatch := 0
+	nearTies := 0
 	compared := 0
 
 	for ci, c := range cf.Cases {
@@ -220,10 +284,26 @@ func TestDecideMatchesPythonReference(t *testing.T) {
 			switch qid {
 			case "route":
 				if got.Choice != ra.Choice {
-					choiceMismatch++
-					mismatches++
-					if mismatches <= 8 {
-						t.Errorf("кейс %d (%q): выбор %q, эталон %q", ci, clipText(c.State), got.Choice, ra.Choice)
+					// Почти-равные лидеры: если в эталоне два варианта стоят в
+					// пределах nearTieGap, выбор неустойчив к порядку суммирования
+					// (другая видеокарта, другой набор ядер) — это не расхождение
+					// логики. Измерено: кейс «BTC» (3 символа), эталон 0.3365 против
+					// 0.3361, на GTX 1650 лидеры меняются местами. Настоящий разрыв
+					// (>= nearTieGap) остаётся ошибкой.
+					gap := topGap(ra.Probs)
+					if gap < nearTieGap {
+						nearTies++
+						if nearTies <= 5 {
+							t.Logf("кейс %d (%q): почти-равный выбор %q vs %q (разрыв в эталоне %.4f) — зависит от GPU",
+								ci, clipText(c.State), got.Choice, ra.Choice, gap)
+						}
+					} else {
+						choiceMismatch++
+						mismatches++
+						if mismatches <= 8 {
+							t.Errorf("кейс %d (%q): выбор %q, эталон %q (разрыв в эталоне %.4f)",
+								ci, clipText(c.State), got.Choice, ra.Choice, gap)
+						}
 					}
 				}
 			}
@@ -237,11 +317,24 @@ func TestDecideMatchesPythonReference(t *testing.T) {
 	}
 
 	t.Logf("сверено ответов: %d на %d кейсах", compared, len(cf.Cases))
+	if nearTies > 0 {
+		t.Logf("почти-равных выборов (разрыв лидеров в эталоне < %.0e): %d — ожидаемо при сверке на другой видеокарте", nearTieGap, nearTies)
+	}
 	if mismatches > 0 {
 		t.Fatalf("расхождений с Python-эталоном: %d (из них по выбору маршрута: %d)", mismatches, choiceMismatch)
 	}
 	t.Logf("Go-движок совпал с Python-эталоном; эталонная точность маршрута %.3f при мажоритарном baseline %.3f",
 		ref.RouteAccuracy, ref.MajorityBase)
+}
+
+// topGap — разрыв между двумя лидирующими вероятностями.
+func topGap(probs []float64) float64 {
+	if len(probs) < 2 {
+		return 1
+	}
+	sorted := append([]float64(nil), probs...)
+	sort.Sort(sort.Reverse(sort.Float64Slice(sorted)))
+	return sorted[0] - sorted[1]
 }
 
 func clipText(s string) string {
