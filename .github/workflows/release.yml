@@ -87,6 +87,9 @@ jobs:
       - name: Upload assets to the tag's release
         env:
           GH_TOKEN: ${{ github.token }}
+          # No local checkout in this job: point gh at the repository explicitly,
+          # otherwise "gh release view" fails with "not a git repository".
+          GH_REPO: ${{ github.repository }}
         run: |
           set -e
           gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 || \
