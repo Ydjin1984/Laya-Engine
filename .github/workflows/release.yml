@@ -4,6 +4,11 @@ on:
   push:
     tags: ['v*']
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to attach the binaries to (must already exist)'
+        required: true
+        default: 'v1.0.0'
 
 permissions:
   contents: write
@@ -76,23 +81,28 @@ jobs:
   attach:
     name: attach to release
     needs: binaries
-    if: startsWith(github.ref, 'refs/tags/')
+    # Runs on a tag push, or on a manual dispatch with an explicit tag input
+    # (the dispatch path exists because a tag's own workflow file is frozen at
+    # the tagged commit -- fixes to this workflow only affect later tags).
+    if: startsWith(github.ref, 'refs/tags/') || inputs.tag != ''
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+      # No local checkout in this job: point gh at the repository explicitly,
+      # otherwise "gh release view" fails with "not a git repository".
+      GH_REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/download-artifact@v4
         with:
           path: dist
           merge-multiple: true
 
-      - name: Upload assets to the tag's release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          # No local checkout in this job: point gh at the repository explicitly,
-          # otherwise "gh release view" fails with "not a git repository".
-          GH_REPO: ${{ github.repository }}
+      - name: Upload assets to the release
         run: |
           set -e
-          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 || \
-            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes "Binaries built by GitHub Actions (commit $GITHUB_SHA)."
-          gh release upload "$GITHUB_REF_NAME" dist/* --clobber
-          gh release view "$GITHUB_REF_NAME"
+          test -n "$TAG"
+          gh release view "$TAG" >/dev/null 2>&1 || \
+            gh release create "$TAG" --title "$TAG" --notes "Binaries built by GitHub Actions (commit $GITHUB_SHA)."
+          gh release upload "$TAG" dist/* --clobber
+          gh release view "$TAG"
