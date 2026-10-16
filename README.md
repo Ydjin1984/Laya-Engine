@@ -183,10 +183,20 @@ CUDA. Проверить на своей машине: `POST /benchmark`.
 Модель: fp16, ~322M параметров (энкодер mmBERT + голова типизированных решений),
 `max_len=1024`, `head_max_len=256`.
 
+Скриншот ниже — не рендер, а Диспетчер задач тестовой машины во время работы
+сервиса: **2,1 из 4,0 ГБ** выделенной видеопамяти, загрузка 3D **9 %**, **49 °C**.
+Это ответ на главный вопрос про требования: один экземпляр движка с fp16-моделью
+укладывается в 4 ГБ видеопамяти и не занимает карту целиком — рядом продолжают
+работать другие задачи. (Шесть экземпляров, как в демо-аркаде, в 4 ГБ не влезут —
+см. [laya_arcade/README.md](laya_arcade/README.md).)
+
+<img src="./05_gpu_gtx1650.png" alt="Диспетчер задач: Laya Engine на GTX 1650 — 2,1 из 4,0 ГБ видеопамяти, загрузка 3D 9 %, 49 °C" width="72%">
+
 ## Структура репозитория
 
 ```
-01..04_*.png          четыре иллюстрации серии (в корне, по одной на раздел)
+01..05_*.png          иллюстрации серии (в корне, по одной на раздел)
+                      + скриншот Диспетчера задач: движок на GTX 1650
 cmd/laya-server/      точка входа сервиса (флаги, прогрев, логи)
 engine/               ONNX-сессия, сборка входа, вопросы, CUDA-окружение
 tokenizer/            токенизатор mmBERT на Go (сверен с HuggingFace)
@@ -382,10 +392,20 @@ Time is linear in input tokens (≈1 ms/token on the GTX 1650); every operator r
 on CUDA. Measure your own box with `POST /benchmark`. Model: fp16, ~322M params
 (mmBERT encoder + typed-decision head), `max_len=1024`, `head_max_len=256`.
 
+The screenshot below is not a render — it is the test machine's Task Manager while
+the service was running: **2.1 of 4.0 GB** dedicated GPU memory, **9 %** 3D load,
+**49 °C**. That answers the requirements question: one engine instance with the
+fp16 model fits into 4 GB of VRAM and does not pin the card — other workloads keep
+running next to it. (Six instances, as in the demo arcade, will not fit in 4 GB —
+see [laya_arcade/README.md](laya_arcade/README.md).)
+
+<img src="./05_gpu_gtx1650.png" alt="Task Manager: Laya Engine on a GTX 1650 — 2.1 of 4.0 GB VRAM, 9% 3D load, 49 °C" width="72%">
+
 ## Repository layout
 
 ```
-01..04_*.png          the four illustrations (repo root, one per section)
+01..05_*.png          the illustration series (repo root, one per section)
+                      + the Task Manager screenshot: the engine on a GTX 1650
 cmd/laya-server/      service entry point (flags, warm-up, logging)
 engine/               ONNX session, input assembly, questions, CUDA environment
 tokenizer/            mmBERT tokenizer in Go (verified against HuggingFace)

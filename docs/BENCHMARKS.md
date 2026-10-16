@@ -19,6 +19,13 @@
 | Тестовая (текущая) | GTX 1650 4 ГБ (Turing, без тензорных ядер) | все текущие числа |
 | Историческая | RTX 3060 12 ГБ (прошлая машина) | оставлена для сравнения |
 
+Доказательство реального запуска на тестовой машине — скриншот Диспетчера задач
+во время работы сервиса: **2,1 из 4,0 ГБ** выделенной видеопамяти, загрузка 3D
+**9 %**, **49 °C** (то есть один экземпляр укладывается в 4 ГБ VRAM и не занимает
+карту целиком).
+
+<img src="../05_gpu_gtx1650.png" alt="Диспетчер задач: Laya Engine на GTX 1650 — 2,1/4,0 ГБ видеопамяти, 9 % 3D, 49 °C" width="70%">
+
 Пороги и таймауты клиентов привязываются к текущим числам, а не к 3060:
 GTX 1650 примерно в 4 раза медленнее на той же нагрузке.
 
@@ -121,6 +128,12 @@ Absolute numbers come from two test machines and the checkpoint
 `multilingual-fp16-0b095e005a4c`: an RTX 3060 (historical) and a GTX 1650
 (current, ≈4× slower on the same load). Thresholds must be bound to the current
 numbers, not to the 3060.
+
+Proof of a real local run on the test box — the Task Manager while the service was
+running: **2.1 of 4.0 GB** dedicated VRAM, **9 %** 3D load, **49 °C** (one instance
+fits into 4 GB and does not pin the card).
+
+<img src="../05_gpu_gtx1650.png" alt="Task Manager: Laya Engine on a GTX 1650 — 2.1/4.0 GB VRAM, 9% 3D, 49 °C" width="70%">
 
 ## Engine latency (`/decide`, one forward pass per batch)
 
