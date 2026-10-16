@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лай Аркада — обучение в реальном времени</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="conn-banner" class="conn-banner" hidden></div>
+<header class="top">
+  <div class="brand">
+    <div class="logo">ЛАЙ</div>
+    <div class="brand-text">
+      <h1>Лай Аркада</h1>
+      <p>три игры · нейроэволюция · решения агента видны на экране</p>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><span>поколений всего</span><b id="kpi-gen">0</b></div>
+    <div class="kpi"><span>эпизодов</span><b id="kpi-eps">0</b></div>
+    <div class="kpi"><span>шагов/сек</span><b id="kpi-steps">0</b></div>
+    <div class="kpi"><span>время обучения</span><b id="kpi-time">0:00</b></div>
+    <div class="kpi"><span>обучение на сервере</span><b id="kpi-server">—</b></div>
+  </div>
+
+  <div class="controls">
+    <button id="btn-pause" class="btn btn-primary">⏸ Пауза</button>
+    <label class="speed">
+      <span>скорость обучения</span>
+      <input type="range" id="speed" min="2" max="60" value="10">
+      <b id="speed-val">10 мс/кадр</b>
+    </label>
+    <button id="btn-focus" class="btn">👁 наблюдаем: лучшая особь</button>
+    <button id="btn-save" class="btn">💾 Сохранить мозг на сервере</button>
+    <button id="btn-load" class="btn">📂 Загрузить из файла</button>
+    <button id="btn-export" class="btn">⬇ Выгрузить в файл</button>
+    <button id="btn-reset" class="btn btn-danger">⟲ Сбросить обучение</button>
+    <input type="file" id="file-brain" accept="application/json,.json" hidden>
+  </div>
+</header>
+
+<main>
+  <section id="games" class="games"></section>
+
+  <div class="bottom">
+    <section class="card laya2-card">
+      <div class="card-head">
+        <div class="head-left">
+          <h2><span id="laya2-dot" class="dot dot-on"></span> Лаи на RTX 3060</h2>
+          <p class="sub">флот экземпляров модели Laya (Go + ONNX, CUDA) — они обдумывают ходы на аренах</p>
+        </div>
+        <span class="badge" id="fleet-status">проверяю связь…</span>
+      </div>
+      <div id="fleet-body" class="card-body l2-body">
+        <div class="l2-offline"><p>Опрос экземпляров Laya…</p></div>
+      </div>
+    </section>
+
+    <section class="card journal-card">
+      <div class="card-head">
+        <div class="head-left">
+          <h2>Журнал обучения</h2>
+          <p class="sub">поколения, рекорды, решения агента</p>
+        </div>
+      </div>
+      <div id="journal" class="journal card-body"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>На аренах играют <b>Лаи</b> — настоящая модель Laya (322M, fp16, CUDA) шестью отдельными процессами на RTX 3060. Параллельно «ученик» — три популяции нейросетей — обучается нейроэволюцией: элитизм, кроссовер, мутация.</p>
+  <p class="muted">Кнопка «на арене» переключает показ: играет Лай на GPU или обучаемая сеть. Пробел — пауза. Мозг ученика можно сохранить, загрузить и выгрузить в файл.</p>
+</footer>
+
+<script type="module">
+  import { boot } from './src/app.js';
+  boot();
+</script>
+
+<script>
+  // Диагностика запуска. Страница работает только через сервер аркады: при
+  // открытии файлом (file://) браузер блокирует ES-модули, и раньше это выглядело
+  // как пустой экран без единого сообщения.
+  if (location.protocol === 'file:') {
+    document.addEventListener('DOMContentLoaded', function () {
+      var b = document.getElementById('conn-banner');
+      if (!b) return;
+      b.hidden = false;
+      b.innerHTML = '<b>Страница открыта как файл (file://)</b> — так она не работает: ' +
+        'модули блокируются браузером, бэкенд недоступен. Откройте <code>http://127.0.0.1:8099/</code>. ' +
+        'Бэкенд поднимается скриптом <code>start-arcade.cmd</code> (в laya_arcade) или ' +
+        '<code>start-all.cmd</code> (в корне проекта).';
+    });
+  }
+  window.addEventListener('unhandledrejection', function (e) {
+    console.error('необработанная ошибка промиса:', e.reason);
+  });
+</script>
+</body>
+</html>

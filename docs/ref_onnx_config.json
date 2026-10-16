@@ -1,0 +1,20 @@
+{
+  "format": "laya-onnx",
+  "format_version": 1,
+  "dtype": "float16",
+  "opset": 18,
+  "inputs": [
+    "input_ids",
+    "attention_mask",
+    "marker_pos",
+    "marker_mask",
+    "qtype"
+  ],
+  "outputs": [
+    "logits",
+    "act_logits"
+  ],
+  "source": "aac6fef/laya-multilingual-mlx",
+  "revision": null,
+  "subfolder": null
+}

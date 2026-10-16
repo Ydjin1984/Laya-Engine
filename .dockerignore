@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------------------
+# Контекст сборки Docker: в образ попадают только исходники, документация и
+# скрипты. Веса, библиотеки ONNX Runtime/CUDA и собранные бинарники исключены —
+# их либо монтируют томом (models/), либо получают внутри образа (ONNX Runtime).
+# ---------------------------------------------------------------------------
+
+.git
+.gitignore
+.github
+
+# тяжёлое и платформенное
+models/*.onnx
+models/tokenizer.json
+third_party
+bin
+logs
+backup-*
+
+# машино-локальное
+*.backup-*.xml
+watchdog-*.ps1
+setup-watchdog.ps1
+watchdog-hidden.vbs
+laya_arcade/reference
+laya_arcade/logs
+laya_arcade/state
+
+# мусор
+**/node_modules
+**/__pycache__
+**/*.pyc

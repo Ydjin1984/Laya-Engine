@@ -1,0 +1,48 @@
+# ===========================================================================
+# Laya Engine -- docker compose: CPU (default profile) and GPU (profile "gpu").
+#
+#   ./scripts/fetch-model.sh                 # or: powershell tools\fetch-model.ps1
+#   docker compose up --build laya-cpu
+#   COMPOSE_PROFILES=gpu docker compose up --build laya-gpu
+#
+# Ports are published on 127.0.0.1 only: the service is designed to be local.
+# ===========================================================================
+services:
+  laya-cpu:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: laya-engine:cpu
+    container_name: laya-engine-cpu
+    ports:
+      - "127.0.0.1:8095:8095"
+    volumes:
+      - ../models:/app/models:ro
+      - ../logs:/app/logs
+    environment:
+      LAYA_DEVICE: cpu
+    restart: unless-stopped
+
+  laya-gpu:
+    profiles: ["gpu"]
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.gpu
+    image: laya-engine:gpu
+    container_name: laya-engine-gpu
+    ports:
+      - "127.0.0.1:8095:8095"
+    volumes:
+      - ../models:/app/models:ro
+      - ../logs:/app/logs
+    environment:
+      LAYA_DEVICE: cuda
+      LAYA_DEVICE_ID: "0"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped

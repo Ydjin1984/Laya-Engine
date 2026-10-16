@@ -1,0 +1,173 @@
+[
+ {
+  "text": "Привет! Как дела?",
+  "task_id": "task-20260928-020551-24656-000012",
+  "wall_s": 10.990869299999758,
+  "dispatcher_ms": 3737,
+  "total_ms": 10697,
+  "packs": [
+   "chat"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ },
+ {
+  "text": "Сколько будет 17*23? Ответь одним числом.",
+  "task_id": "task-20260928-020602-24656-000013",
+  "wall_s": 42.9682186,
+  "dispatcher_ms": 36924,
+  "total_ms": 42898,
+  "packs": [
+   "chat"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ },
+ {
+  "text": "Что ты умеешь? Перечисли коротко.",
+  "task_id": "task-20260928-020645-24656-000014",
+  "wall_s": 15.258874900000592,
+  "dispatcher_ms": 4851,
+  "total_ms": 15178,
+  "packs": [
+   "chat"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ },
+ {
+  "text": "Покажи список файлов в папке D:\\Laya_Engine\\tools",
+  "task_id": "task-20260928-020700-24656-000015",
+  "wall_s": 26.84293920000073,
+  "dispatcher_ms": 5194,
+  "total_ms": 26744,
+  "packs": [
+   "files"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ },
+ {
+  "text": "Прочитай файл D:\\Laya_Engine\\go.mod и покажи содержимое.",
+  "task_id": "task-20260928-020727-24656-000016",
+  "wall_s": 86.3952932000002,
+  "dispatcher_ms": 16753,
+  "total_ms": 86289,
+  "packs": [
+   "files",
+   "web"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ },
+ {
+  "text": "Какие файлы лежат в папке D:\\Kibborg_DaVinchi_Bot\\engine-go\\web?",
+  "task_id": "task-20260928-020854-24656-000017",
+  "wall_s": 17.897528800000146,
+  "dispatcher_ms": 4564,
+  "total_ms": 17801,
+  "packs": [
+   "files"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ },
+ {
+  "text": "Сколько строк в файле D:\\Laya_Engine\\README.md?",
+  "task_id": "task-20260928-020911-24656-000018",
+  "wall_s": 29.217195000000174,
+  "dispatcher_ms": 6652,
+  "total_ms": 29121,
+  "packs": [
+   "files"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ },
+ {
+  "text": "Назови три причины, почему локальные модели удобны. Коротко.",
+  "task_id": "task-20260928-020941-24656-000019",
+  "wall_s": 39.57513740000013,
+  "dispatcher_ms": 29687,
+  "total_ms": 39514,
+  "packs": [
+   "chat"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ },
+ {
+  "text": "Покажи размер файла D:\\Laya_Engine\\bin\\laya-server.exe",
+  "task_id": "task-20260928-021020-24656-000020",
+  "wall_s": 25.42123029999948,
+  "dispatcher_ms": 6198,
+  "total_ms": 25364,
+  "packs": [
+   "files"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ },
+ {
+  "text": "Скажи одним словом: ок",
+  "task_id": "task-20260928-021046-24656-000021",
+  "wall_s": 8.767756300000656,
+  "dispatcher_ms": 3489,
+  "total_ms": 8683,
+  "packs": [
+   "chat"
+  ],
+  "source": "local",
+  "status": "done",
+  "laya_class": null,
+  "laya_conf": null,
+  "laya_accepted": null,
+  "laya_fallback": null,
+  "laya_hit": null
+ }
+]

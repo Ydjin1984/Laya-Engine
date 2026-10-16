@@ -1,0 +1,39 @@
+# ---------------------------------------------------------------------------
+# Правила работы git с файлами репозитория.
+#
+# Критично для Windows-скриптов: cmd.exe НЕ исполняет .cmd с LF-переводами строк
+# (файл разбирается как одна поломанная строка), поэтому .cmd и .ps1 всегда
+# закреплены за CRLF, а Unix-скрипты — за LF.
+# ---------------------------------------------------------------------------
+
+* text=auto
+
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+*.sh  text eol=lf
+*.mjs text eol=lf
+*.js  text eol=lf
+
+*.go   text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+
+# Бинарные форматы — не трогать при checkout'е.
+*.png binary
+*.jpg binary
+*.ico binary
+*.exe binary
+*.dll binary
+*.so  binary
+*.dylib binary
+*.onnx binary
+*.zip binary
+*.tgz binary
+*.whl binary
+
+# GitHub Linguist: документация не должна искажать статистику языков.
+docs/** linguist-documentation
+*.md linguist-documentation

@@ -1,0 +1,18 @@
+[Unit]
+Description=Laya Engine -- local typed-decision service (choice/score/noul)
+Documentation=__ROOT__/docs/INSTALL.md
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=__ROOT__
+ExecStart=__ROOT__/scripts/laya.sh run --port __PORT__ __CPUFLAG__
+Restart=on-failure
+RestartSec=5
+# The dynamic loader reads library paths at process start; laya.sh run sets
+# LD_LIBRARY_PATH for ONNX Runtime and third_party/cuda12 itself.
+TimeoutStopSec=20
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=default.target

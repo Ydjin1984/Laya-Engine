@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Плагин ZCode (davinci-laya-decisions)
+    url: https://github.com/Ydjin1984/davinci-laya-zcode/issues
+    about: Проблемы и идеи по плагину, хукам, MCP-инструментам и навыку ZCode
+  - name: Безопасность
+    url: https://github.com/Ydjin1984/Laya-Engine/security/advisories/new
+    about: Уязвимости не через публичные issues (см. SECURITY.md)
+  - name: Исходная модель Laya
+    url: https://huggingface.co/convaiinnovations/laya
+    about: Вопросы по самой модели, её обучению и лицензии

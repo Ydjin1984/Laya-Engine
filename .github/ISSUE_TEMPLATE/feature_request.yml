@@ -1,0 +1,42 @@
+name: Feature request
+description: Идея: новая возможность движка, клиента, документации или интеграции
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Задача
+      description: Какую проблему решает предложение? Опишите ситуацию, а не только решение.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Предложение
+      description: Что именно предлагаете (API, флаг, скрипт, документ).
+    validations:
+      required: true
+  - type: textarea
+    id: measure
+    attributes:
+      label: Как это измерить
+      description: |
+        Обязательное поле проекта: любое изменение проверяется числом —
+        латентность, токены, точность, надёжность. Что и как мерить?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Область
+      options:
+        - engine (Go, ONNX, токенизатор)
+        - HTTP API
+        - scripts / установка / сервис
+        - Docker
+        - docs
+        - интеграция ZCode (плагин — отдельный репозиторий)
+        - другое
+    validations:
+      required: true

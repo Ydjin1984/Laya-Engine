@@ -1,0 +1,330 @@
+:root {
+  --bg: #05070f;
+  --bg-2: #0a0f1d;
+  --card: #0d1424;
+  --card-2: #111a2e;
+  --line: rgba(110, 150, 230, 0.18);
+  --text: #dbe6ff;
+  --muted: #7f92b8;
+  --accent: #4dd6ff;
+  --accent-2: #8b5bff;
+  --green: #3fd28a;
+  --red: #ff5d7a;
+  --yellow: #ffd166;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(77, 214, 255, 0.10), transparent 60%),
+    radial-gradient(900px 500px at 95% 0%, rgba(139, 91, 255, 0.12), transparent 55%),
+    var(--bg);
+  color: var(--text);
+  font-family: ui-monospace, "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* ---------------------------- шапка ---------------------------- */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  align-items: center;
+  padding: 12px 18px;
+  background: rgba(6, 9, 18, 0.93);
+  backdrop-filter: blur(9px);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+
+.logo {
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(140deg, var(--accent), var(--accent-2));
+  color: #04101a;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 22px rgba(77, 214, 255, 0.35);
+}
+
+.brand-text h1 { margin: 0; font-size: 16px; letter-spacing: 0.4px; }
+.brand-text p { margin: 0; font-size: 11px; color: var(--muted); }
+
+.kpis { display: flex; gap: 10px; margin-left: auto; flex-wrap: wrap; }
+
+.kpi {
+  min-width: 104px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+}
+.kpi span { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+.kpi b { font-size: 16px; color: var(--accent); }
+
+.controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; width: 100%; }
+
+.btn {
+  padding: 7px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--card-2);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.08s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.btn:hover { border-color: var(--accent); background: #16223b; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: linear-gradient(140deg, rgba(77,214,255,0.22), rgba(139,91,255,0.22)); border-color: rgba(77,214,255,0.45); }
+.btn-danger:hover { border-color: var(--red); }
+
+.speed { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); }
+.speed input { width: 160px; accent-color: var(--accent); }
+.speed b { color: var(--text); font-size: 11px; min-width: 74px; }
+
+/* ---------------------------- сетка ---------------------------- */
+main { padding: 16px 18px 8px; }
+
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-auto-rows: 640px;
+  gap: 14px;
+}
+
+/* Карточка игры — строго фиксированный размер: меняется только содержимое внутри,
+   поэтому сетка не «прыгает» при обновлении данных. */
+.game-card {
+  height: 640px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  contain: layout paint;
+}
+.game-card .card-head { flex: 0 0 auto; }
+.game-card .card-body { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+
+.bottom {
+  display: grid;
+  grid-template-columns: minmax(380px, 1fr) minmax(380px, 1fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+@media (max-width: 900px) { .bottom { grid-template-columns: 1fr; } }
+
+.card {
+  background: linear-gradient(180deg, rgba(17, 26, 46, 0.9), rgba(9, 14, 26, 0.92));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.35);
+}
+
+.card-head {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(7, 11, 22, 0.7);
+}
+.card-head h2 { margin: 0; font-size: 14px; letter-spacing: 0.3px; display: flex; align-items: center; gap: 8px; }
+.sub { margin: 2px 0 0; font-size: 10.5px; color: var(--muted); }
+
+.head-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+
+.btn-mini { padding: 4px 9px; font-size: 10.5px; border-radius: 7px; }
+.btn-active { border-color: var(--accent); background: rgba(77, 214, 255, 0.16); color: #bff0ff; }
+.small { font-size: 10.5px; }
+
+.badge {
+  white-space: nowrap;
+  font-size: 10.5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(77, 214, 255, 0.35);
+  color: var(--accent);
+  background: rgba(77, 214, 255, 0.08);
+}
+
+.card-body { display: flex; gap: 12px; padding: 12px; }
+/* Ширина арены жёстко равна ширине игрового поля: подписи под ней не растягивают колонку. */
+.arena { display: flex; flex-direction: column; gap: 6px; flex: 0 0 auto; width: var(--aw, 288px); }
+.arena canvas {
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #070b14;
+  display: block;
+  width: var(--aw, 288px);
+}
+.arena-foot { display: flex; justify-content: space-between; gap: 8px; font-size: 10.5px; color: var(--muted); width: var(--aw, 288px); height: 14px; overflow: hidden; white-space: nowrap; }
+.arena-foot span { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+
+.side { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; min-height: 0; }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 34px; gap: 5px; flex: 0 0 auto; }
+.stat {
+  background: rgba(10, 16, 30, 0.85);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 3px 7px;
+  overflow: hidden;
+}
+.stat span { display: block; font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stat b { font-size: 12.5px; color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+
+.chart { width: 100%; height: 76px; flex: 0 0 auto; border-radius: 8px; border: 1px solid var(--line); }
+
+.thoughts-head { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; display: flex; gap: 8px; align-items: center; flex: 0 0 auto; height: 14px; white-space: nowrap; overflow: hidden; }
+.live { color: var(--red); font-size: 10px; animation: pulse 1.6s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+.thoughts {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-right: 4px;
+  contain: content;
+}
+/* лента не должна менять размер блока: записи фиксированной высоты, лишнее обрезается */
+.th { flex: 0 0 auto; height: 58px; overflow: hidden; }
+.th-text, .th-meta, .th-head { overflow: hidden; }
+.th-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.th-head, .th-meta { white-space: nowrap; text-overflow: ellipsis; }
+.thoughts::-webkit-scrollbar, .journal::-webkit-scrollbar { width: 7px; }
+.thoughts::-webkit-scrollbar-thumb, .journal::-webkit-scrollbar-thumb { background: rgba(110, 150, 230, 0.3); border-radius: 4px; }
+
+.th {
+  border-left: 2px solid rgba(77, 214, 255, 0.5);
+  background: rgba(9, 15, 28, 0.9);
+  border-radius: 0 8px 8px 0;
+  padding: 4px 8px;
+  animation: slideIn 0.22s ease;
+}
+@keyframes slideIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+.th-reflex { border-left-color: var(--green); }
+.th-guess { border-left-color: var(--yellow); }
+.th-head { display: flex; gap: 8px; align-items: baseline; font-size: 10px; color: var(--muted); }
+.th-label { color: var(--accent); font-weight: 700; }
+.th-rw { margin-left: auto; }
+.rw-pos { color: var(--green); }
+.rw-neg { color: var(--red); }
+.th-text { font-size: 11.5px; color: var(--text); }
+.th-meta { font-size: 10px; color: var(--muted); }
+.th-lat { color: var(--yellow); font-size: 10px; margin-left: auto; }
+.th-empty { color: var(--muted); font-size: 11px; }
+
+/* карьера Лая и уроки из прошлых партий — фиксированная высота */
+.career {
+  flex: 0 0 132px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  contain: content;
+}
+.career-head {
+  display: flex; flex-wrap: wrap; gap: 4px 12px;
+  font-size: 10.5px; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 5px 8px; background: rgba(10, 16, 30, 0.85);
+  height: 34px; overflow: hidden;
+}
+.career-head b { color: var(--accent); }
+.lessons-title { font-size: 10px; color: var(--muted); margin-top: 2px; height: 13px; white-space: nowrap; overflow: hidden; }
+.lesson {
+  border-left: 2px solid var(--yellow);
+  background: rgba(9, 15, 28, 0.9);
+  border-radius: 0 8px 8px 0;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: var(--text);
+  flex: 0 0 auto;
+  max-height: 46px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.lesson-n { color: var(--yellow); font-weight: 700; margin-right: 4px; }
+.career::-webkit-scrollbar { width: 7px; }
+.career::-webkit-scrollbar-thumb { background: rgba(110, 150, 230, 0.3); border-radius: 4px; }
+
+/* ---------------------------- второй Лай ---------------------------- */
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.dot-on { background: var(--green); box-shadow: 0 0 10px var(--green); }
+.dot-off { background: #46536e; }
+
+.l2-body { flex-direction: column; }
+.l2-kpi { display: flex; gap: 8px; flex-wrap: wrap; }
+.l2-kpi > div {
+  flex: 1; min-width: 120px;
+  border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; background: rgba(10,16,30,0.85);
+}
+.l2-kpi span { display: block; font-size: 9.5px; color: var(--muted); text-transform: uppercase; }
+.l2-kpi b { font-size: 14px; color: var(--accent-2); }
+
+.l2-games { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; }
+.l2-game { border: 1px solid var(--line); border-radius: 9px; padding: 6px 8px; background: rgba(10,16,30,0.85); }
+.l2-on { border-color: rgba(63, 210, 138, 0.45); }
+.l2-off { border-color: rgba(255, 93, 122, 0.45); opacity: 0.75; }
+.l2-head { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--muted); }
+.l2-head b { color: var(--text); font-size: 12px; }
+.l2-stats { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-top: 3px; }
+.l2-stats b { color: var(--accent); }
+.l2-bar { height: 5px; border-radius: 3px; background: rgba(110,150,230,0.18); margin-top: 5px; overflow: hidden; }
+.l2-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+.l2-log { height: 190px; }
+.l2-th { border-left-color: var(--accent-2); }
+.l2-offline { color: var(--muted); font-size: 11.5px; }
+.l2-offline code { color: var(--accent); background: rgba(77,214,255,0.08); padding: 1px 5px; border-radius: 5px; }
+.muted { color: var(--muted); }
+
+/* ---------------------------- журнал ---------------------------- */
+.journal {
+  display: block;
+  height: 380px;
+  overflow-y: auto;
+  padding: 10px 12px;
+}
+.jrow { display: flex; gap: 10px; font-size: 11.5px; padding: 2px 0; border-bottom: 1px dashed rgba(110,150,230,0.09); }
+.jtime { color: var(--muted); flex: 0 0 68px; }
+.jtext { color: var(--text); }
+.jrow-record .jtext { color: var(--yellow); }
+.jrow-warn .jtext { color: var(--red); }
+.jrow-gen .jtext { color: #9fd8ff; }
+
+.foot { padding: 10px 18px 26px; color: var(--muted); font-size: 11px; }
+.foot p { margin: 3px 0; }
+
+/* Баннер состояния бэкенда: виден всегда, когда страница не может говорить с
+   сервером аркады, и объясняет, чем это лечится. */
+.conn-banner {
+  margin: 0;
+  padding: 12px 18px;
+  background: #3a1d22;
+  border-bottom: 1px solid #a8425a;
+  color: #ffd9e0;
+  font: 13px/1.5 system-ui, "Segoe UI", sans-serif;
+}
+.conn-banner code {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: Consolas, "Cascadia Mono", monospace;
+}

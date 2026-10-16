@@ -1,0 +1,28 @@
+{
+ "prompt_tokens": 50000,
+ "rows": [
+  {
+   "label": "локальный 27B (эта машина)",
+   "ttft_s": 7.116171599998779,
+   "total_s": 7.116475499999069
+  },
+  {
+   "label": "OpenRouter qwen3.8-27b (free)",
+   "error": "http 429: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"qwen/qwen3.8-27b:free is temporarily rate-li"
+  },
+  {
+   "label": "OpenRouter nemotron-lightning (free)",
+   "ttft_s": 21.502194099999542,
+   "total_s": 21.595410599999013
+  },
+  {
+   "label": "DeepSeek V4 Flash",
+   "ttft_s": 5.711611799999446,
+   "total_s": 5.711611799999446
+  },
+  {
+   "label": "Kimi K2.7 Code HighSpeed",
+   "error": "http 429: {\"error\":{\"message\":\"Your account org-d42ef0469ce8487f81e9bd0c343588c2 \\u003cak-fcp71qnxbhb111a68yn1\\u003e is suspended "
+  }
+ ]
+}

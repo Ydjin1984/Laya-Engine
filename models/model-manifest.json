@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "note": "Локальные файлы модели и рантайма. Старт сервиса никогда ничего не скачивает: эти файлы уже должны лежать в проекте.",
+  "files": {
+    "multilingual-fp16.onnx": {
+      "path": "models\\multilingual-fp16.onnx",
+      "bytes": 646870871,
+      "sha256": "0b095e005a4c295cae74d47b7eb6931c369d48f5b720b45278d774165798310c",
+      "role": "weights fp16 (322M, рабочая модель)"
+    },
+    "tokenizer.json": {
+      "path": "models\\tokenizer.json",
+      "bytes": 34363188,
+      "sha256": "609d8f4c067cd3950f88594c5a802616cea245823836ef5848ee4fc40aab5b6f",
+      "role": "словарь mmBERT, 256000 токенов"
+    },
+    "onnxruntime.dll": {
+      "path": "bin\\onnxruntime.dll",
+      "bytes": 15112224,
+      "sha256": "6c4a6c69a0be5080e00e7464e54203fe21e82f78f12d351b00f9b4ea28622606",
+      "role": "ONNX Runtime 1.25.0 (C API)"
+    },
+    "onnxruntime_providers_cuda.dll": {
+      "path": "bin\\onnxruntime_providers_cuda.dll",
+      "bytes": 293330976,
+      "sha256": "0be8a1692d99f66ba044aaf2a3666a144299605c25b78cb2287dfa61aaa6c74e",
+      "role": "CUDA execution provider"
+    },
+    "cudart64_12.dll": {
+      "path": "third_party\\cuda12\\cudart64_12.dll",
+      "bytes": 583680,
+      "sha256": "760c38928bbe5759f7b31ed6692599eb7ec83cedd5702e84c2b72028a89837e1",
+      "role": "CUDA 12 runtime"
+    },
+    "cublas64_12.dll": {
+      "path": "third_party\\cuda12\\cublas64_12.dll",
+      "bytes": 102518272,
+      "sha256": "52ce5ba0ec5327d39be6021f0f9362d2ed4d64d7206f9b5afc06398d827b8e82",
+      "role": "CUDA 12 BLAS"
+    },
+    "cublasLt64_12.dll": {
+      "path": "third_party\\cuda12\\cublasLt64_12.dll",
+      "bytes": 668673536,
+      "sha256": "71705a7cf0923f4ab034d0d2620bbfc989ff669ac3d79f868b7a7c597ca559c5",
+      "role": "CUDA 12 BLAS Lt"
+    },
+    "cudnn64_9.dll": {
+      "path": "third_party\\cuda12\\cudnn64_9.dll",
+      "bytes": 270448,
+      "sha256": "4090a7bf7dd470e75c5544bf9b6d47dacec3fadd72c794d2ee7c861f27a62ae9",
+      "role": "cuDNN 9"
+    },
+    "cufft64_11.dll": {
+      "path": "third_party\\cuda12\\cufft64_11.dll",
+      "bytes": 287136768,
+      "sha256": "5b90655ca9cdf5d91cbdf2c72b995ec937eed0aef2d6954370c711b45c929b35",
+      "role": "CUFFT"
+    }
+  }
+}

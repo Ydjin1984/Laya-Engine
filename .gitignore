@@ -1,0 +1,79 @@
+# ---------------------------------------------------------------------------
+# Laya Engine — что НЕ попадает в репозиторий.
+#
+# Принцип: в git лежат исходники, документация, скрипты и иллюстрации. Всё тяжёлое
+# и платформозависимое (веса, ONNX Runtime, CUDA) скачивается скриптами из
+# scripts/ — см. docs/INSTALL.md. Это позволяет держать репозиторий лёгким и не
+# перепубликовывать чужие бинарники.
+# ---------------------------------------------------------------------------
+
+# --- Веса и словарь модели (617 МБ + 34 МБ): scripts/fetch-model.sh / .ps1 ----
+models/*.onnx
+models/tokenizer.json
+!models/model-manifest.json
+
+# --- ONNX Runtime и CUDA: scripts/fetch-ort.*, scripts/fetch-cuda.* -------------
+bin/*.dll
+bin/*.so
+bin/*.so.*
+bin/*.dylib
+third_party/cuda12/
+third_party/ort/
+third_party/ort-gpu/
+third_party/ort125/
+third_party/*.zip
+third_party/*.tgz
+
+# --- Собранные бинарники ---------------------------------------------------
+bin/*.exe
+bin/laya-server
+bin/*.new.exe
+
+# --- Логи, профили, состояние ---------------------------------------------
+logs/
+*.log
+ort-profile_*.json
+laya_arcade/logs/
+laya_arcade/state/
+
+# --- Сторонние снапшоты, которые не перепубликуются ------------------------
+# laya_arcade/reference/ — частичная копия чужого репозитория
+# (kevinbadi/laya-decision-brain); вместо копии — ссылка в laya_arcade/README.md.
+laya_arcade/reference/
+
+# --- Бэкапы и локальные снапшоты ------------------------------------------
+backup-*/
+*.backup-*.xml
+
+# --- Машинно-локальная автоматизация этой машины ---------------------------
+# (жёстко прописывает E:\Laya_Engine; универсальные версии — в scripts/windows/watchdog/)
+/watchdog-laya.ps1
+/watchdog-hidden.vbs
+/setup-watchdog.ps1
+/LayaEngineWatchdog.backup-*.xml
+
+# --- Локальная копия репозитория плагина ------------------------------------
+# Канонический источник плагина — https://github.com/Ydjin1984/davinci-laya-zcode;
+# в этом репозитории он подключается скриптом/UI, копия не дублируется.
+davinci-laya-zcode/
+
+# --- Go -------------------------------------------------------------------
+*.test
+*.out
+vendor/
+
+# --- Python (только инструменты разработки) --------------------------------
+__pycache__/
+*.pyc
+.venv/
+
+# --- Node (демо-аркада) ----------------------------------------------------
+node_modules/
+
+# --- Редакторы и ОС --------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+desktop.ini
+.DS_Store

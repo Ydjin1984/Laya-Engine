@@ -1,0 +1,95 @@
+name: Release binaries
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  binaries:
+    name: ${{ matrix.asset }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: laya-server-linux-amd64
+            env: CC=gcc GOOS=linux GOARCH=amd64
+          - os: ubuntu-latest
+            asset: laya-server-linux-arm64
+            env: CC=aarch64-linux-gnu-gcc GOOS=linux GOARCH=arm64
+            extra: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
+          - os: macos-latest
+            asset: laya-server-darwin-arm64
+            env: CC=clang GOOS=darwin GOARCH=arm64
+          - os: macos-latest
+            asset: laya-server-darwin-amd64
+            env: CC=clang GOOS=darwin GOARCH=amd64 CGO_CFLAGS=-arch\ x86_64 CGO_LDFLAGS=-arch\ x86_64
+          - os: windows-latest
+            asset: laya-server-windows-amd64.exe
+            env: CC=gcc GOOS=windows GOARCH=amd64
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+          cache: true
+
+      - name: Install gcc (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+
+      - name: Install cross gcc (Linux arm64)
+        if: matrix.extra != ''
+        run: ${{ matrix.extra }}
+
+      - name: Add mingw64 gcc to PATH (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $mingw = 'C:\msys64\mingw64\bin'
+          if (Test-Path $mingw) { Add-Content -Path $env:GITHUB_PATH -Value $mingw }
+          gcc --version
+
+      - name: Build
+        shell: bash
+        env:
+          CGO_ENABLED: '1'
+        run: |
+          set -e
+          export ${{ matrix.env }}
+          mkdir -p dist
+          go build -trimpath -o "dist/${{ matrix.asset }}" ./cmd/laya-server
+          ls -la dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: dist/${{ matrix.asset }}
+          if-no-files-found: error
+
+  attach:
+    name: attach to release
+    needs: binaries
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Upload assets to the tag's release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 || \
+            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes "Binaries built by GitHub Actions (commit $GITHUB_SHA)."
+          gh release upload "$GITHUB_REF_NAME" dist/* --clobber
+          gh release view "$GITHUB_REF_NAME"

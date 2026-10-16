@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    name: build + vet + test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+          cache: true
+
+      - name: Install a C compiler (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+
+      - name: Add mingw64 gcc to PATH (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          # cgo needs a C compiler; MSYS2 ships one on the Windows runners.
+          $mingw = 'C:\msys64\mingw64\bin'
+          if (Test-Path $mingw) { Add-Content -Path $env:GITHUB_PATH -Value $mingw }
+          gcc --version
+
+      - name: gofmt
+        shell: bash
+        run: |
+          unformatted="$(gofmt -l .)"
+          if [ -n "$unformatted" ]; then echo "Unformatted files:"; echo "$unformatted"; exit 1; fi
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: go test
+        # Engine tests skip themselves when the weights are absent (they are
+        # not in the repository); the tokenizer reference test needs no model.
+        run: go test ./... -timeout 10m -count=1
+
+      - name: build (cgo)
+        shell: bash
+        run: |
+          mkdir -p dist
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            go build -o dist/laya-server-windows-amd64.exe ./cmd/laya-server
+          elif [ "${{ runner.os }}" = "Linux" ]; then
+            go build -o dist/laya-server-linux-amd64 ./cmd/laya-server
+          else
+            go build -o dist/laya-server-darwin-$(uname -m | sed 's/x86_64/amd64/;s/arm64/arm64/') ./cmd/laya-server
+          fi
+          ls -la dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: laya-server-${{ matrix.os }}
+          path: dist/
+          if-no-files-found: error
+
+  docs:
+    name: docs sanity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: README images exist
+        run: |
+          set -e
+          # every image referenced from README.md must exist in the repository
+          grep -oE '\(\./[^)]+\.png\)' README.md | tr -d '()' | sed 's|^\./||' | sort -u | while read -r f; do
+            echo "checking $f"
+            test -f "$f" || { echo "MISSING: $f"; exit 1; }
+          done
+
+      - name: Required files exist
+        run: |
+          set -e
+          for f in README.md LICENSE NOTICE CHANGELOG.md CONTRIBUTING.md SECURITY.md AGENTS.md \
+                   docs/INSTALL.md docs/API.md docs/BENCHMARKS.md docs/ARCHITECTURE.md \
+                   scripts/laya.sh scripts/install.sh scripts/fetch-model.sh docker/Dockerfile; do
+            test -f "$f" || { echo "MISSING: $f"; exit 1; }
+          done
+          echo "all required files present"
+
+      - name: Shell scripts parse
+        run: |
+          set -e
+          for f in $(find scripts -name '*.sh'); do bash -n "$f" && echo "ok: $f"; done
+
+      - name: Windows scripts are ASCII and CRLF
+        run: |
+          set -e
+          for f in *.cmd; do
+            if grep -qP '[^\x00-\x7F]' "$f"; then echo "non-ASCII in $f"; exit 1; fi
+            file "$f" | grep -q CRLF || { echo "not CRLF: $f"; exit 1; }
+            echo "ok: $f"
+          done

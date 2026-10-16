@@ -1,0 +1,2415 @@
+{
+ "addr": "127.0.0.1:8095",
+ "runs": [
+  {
+   "cases": 50,
+   "evaluated": 50,
+   "failures": [],
+   "route_accuracy": 0.24,
+   "route_hits": 12,
+   "route_accuracy_strict": 0.14,
+   "route_hits_strict": 7,
+   "majority_class": "secops",
+   "majority_baseline": 0.44,
+   "reference_accuracy": 0.24,
+   "reference_accuracy_strict": 0.14,
+   "latency_ms": {
+    "p50": 1466.787,
+    "p95": 1852.568,
+    "p99": 1896.46,
+    "mean": 1549.64244,
+    "max": 1896.46
+   },
+   "wall_ms": {
+    "p50": 1468.0755138397217,
+    "p95": 1862.2984886169434,
+    "mean": 1558.759789466858
+   },
+   "rps": 0.6415356662119375,
+   "input_tokens": {
+    "median": 642,
+    "max": 924
+   },
+   "state_truncated": 0,
+   "collapsed": 0,
+   "chosen_top": [
+    [
+     "browser.read",
+     26
+    ],
+    [
+     "browser.act",
+     11
+    ],
+    [
+     "files",
+     5
+    ],
+    [
+     "trade",
+     4
+    ],
+    [
+     "web",
+     2
+    ]
+   ],
+   "per_case": [
+    {
+     "id": "task-20260815-203005-59576-000008",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "trade",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4169,
+     "server_ms": 1728.502,
+     "wall_ms": 1779.1459560394287,
+     "input_tokens": 546
+    },
+    {
+     "id": "task-20260816-001809-59576-000009",
+     "fact_packs": [
+      "browser.read"
+     ],
+     "fact_top": "browser.read",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.3753,
+     "server_ms": 1388.579,
+     "wall_ms": 1389.1072273254395,
+     "input_tokens": 558
+    },
+    {
+     "id": "task-20260816-002125-59576-000010",
+     "fact_packs": [
+      "trade",
+      "web"
+     ],
+     "fact_top": "trade",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.2625,
+     "server_ms": 1330.402,
+     "wall_ms": 1348.7663269042969,
+     "input_tokens": 468
+    },
+    {
+     "id": "task-20260816-002623-59576-000011",
+     "fact_packs": [
+      "trade"
+     ],
+     "fact_top": "trade",
+     "choice": "trade",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.8985,
+     "server_ms": 1691.535,
+     "wall_ms": 1702.6245594024658,
+     "input_tokens": 846
+    },
+    {
+     "id": "task-20260816-002806-59576-000012",
+     "fact_packs": [
+      "trade",
+      "web"
+     ],
+     "fact_top": "trade",
+     "choice": "trade",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.7578,
+     "server_ms": 1684.103,
+     "wall_ms": 1684.8604679107666,
+     "input_tokens": 846
+    },
+    {
+     "id": "task-20260816-003313-59576-000013",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "trade",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4655,
+     "server_ms": 1676.641,
+     "wall_ms": 1677.778720855713,
+     "input_tokens": 792
+    },
+    {
+     "id": "task-20260816-114824-51992-000001",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5575,
+     "server_ms": 1465.272,
+     "wall_ms": 1490.6823635101318,
+     "input_tokens": 516
+    },
+    {
+     "id": "task-20260816-115456-51992-000002",
+     "fact_packs": [
+      "trade",
+      "web"
+     ],
+     "fact_top": "trade",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3371,
+     "server_ms": 1328.368,
+     "wall_ms": 1348.677635192871,
+     "input_tokens": 468
+    },
+    {
+     "id": "task-20260816-182645-3372-000001",
+     "fact_packs": [
+      "console",
+      "web"
+     ],
+     "fact_top": "console",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6136,
+     "server_ms": 1465.621,
+     "wall_ms": 1466.1738872528076,
+     "input_tokens": 594
+    },
+    {
+     "id": "task-20260816-183209-3372-000002",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3999,
+     "server_ms": 1466.787,
+     "wall_ms": 1467.5142765045166,
+     "input_tokens": 546
+    },
+    {
+     "id": "task-20260816-183408-8928-000001",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.2603,
+     "server_ms": 1394.268,
+     "wall_ms": 1418.639898300171,
+     "input_tokens": 570
+    },
+    {
+     "id": "task-20260816-183658-8928-000002",
+     "fact_packs": [
+      "files",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.5774,
+     "server_ms": 1422.987,
+     "wall_ms": 1423.8383769989014,
+     "input_tokens": 522
+    },
+    {
+     "id": "task-20260820-220405-41764-000001",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4993,
+     "server_ms": 1357.526,
+     "wall_ms": 1382.9731941223145,
+     "input_tokens": 468
+    },
+    {
+     "id": "task-20260823-013836-28876-000001",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3093,
+     "server_ms": 1253.838,
+     "wall_ms": 1254.363775253296,
+     "input_tokens": 480
+    },
+    {
+     "id": "task-20260823-013857-28876-000002",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4633,
+     "server_ms": 1268.583,
+     "wall_ms": 1268.9423561096191,
+     "input_tokens": 474
+    },
+    {
+     "id": "task-20260823-175738-30496-000001",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3093,
+     "server_ms": 1377.174,
+     "wall_ms": 1389.5642757415771,
+     "input_tokens": 480
+    },
+    {
+     "id": "task-20260823-175806-30496-000002",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4906,
+     "server_ms": 1332.37,
+     "wall_ms": 1356.9982051849365,
+     "input_tokens": 486
+    },
+    {
+     "id": "task-20260823-182311-31488-000001",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3555,
+     "server_ms": 1482.756,
+     "wall_ms": 1507.0359706878662,
+     "input_tokens": 558
+    },
+    {
+     "id": "task-20260823-183730-25460-000001",
+     "fact_packs": [
+      "files"
+     ],
+     "fact_top": "files",
+     "choice": "secops",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4208,
+     "server_ms": 1457.026,
+     "wall_ms": 1457.740306854248,
+     "input_tokens": 606
+    },
+    {
+     "id": "task-20260823-183810-25460-000002",
+     "fact_packs": [
+      "files"
+     ],
+     "fact_top": "files",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.6056,
+     "server_ms": 1410.119,
+     "wall_ms": 1425.2088069915771,
+     "input_tokens": 588
+    },
+    {
+     "id": "task-20260826-031514-20876-000001",
+     "fact_packs": [
+      "chat",
+      "console"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4169,
+     "server_ms": 1460.295,
+     "wall_ms": 1461.707592010498,
+     "input_tokens": 564
+    },
+    {
+     "id": "task-20260826-225943-18244-000001",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6459,
+     "server_ms": 1324.975,
+     "wall_ms": 1344.3748950958252,
+     "input_tokens": 528
+    },
+    {
+     "id": "task-20260827-002832-4148-000001",
+     "fact_packs": [
+      "files",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.9414,
+     "server_ms": 1445.416,
+     "wall_ms": 1446.847677230835,
+     "input_tokens": 594
+    },
+    {
+     "id": "task-20260827-162603-23736-000001",
+     "fact_packs": [
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "browser.read",
+     "choice": "web",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.905,
+     "server_ms": 1467.383,
+     "wall_ms": 1468.0755138397217,
+     "input_tokens": 654
+    },
+    {
+     "id": "task-20260827-162955-23736-000002",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5113,
+     "server_ms": 1410.577,
+     "wall_ms": 1411.0801219940186,
+     "input_tokens": 654
+    },
+    {
+     "id": "task-20260827-163122-23736-000003",
+     "fact_packs": [
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "browser.read",
+     "choice": "web",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.8991,
+     "server_ms": 1795.486,
+     "wall_ms": 1796.0929870605469,
+     "input_tokens": 870
+    },
+    {
+     "id": "task-20260827-165956-2944-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1743.695,
+     "wall_ms": 1765.099287033081,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-170010-2944-000002",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1770.76,
+     "wall_ms": 1787.5089645385742,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-171136-23772-000001",
+     "fact_packs": [
+      "secops"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.42,
+     "server_ms": 1659.102,
+     "wall_ms": 1672.2450256347656,
+     "input_tokens": 780
+    },
+    {
+     "id": "task-20260827-171511-23900-000001",
+     "fact_packs": [
+      "secops",
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.4354,
+     "server_ms": 1861.77,
+     "wall_ms": 1862.2984886169434,
+     "input_tokens": 804
+    },
+    {
+     "id": "task-20260827-172324-23972-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1744.796,
+     "wall_ms": 1766.4361000061035,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-173524-26576-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1770.02,
+     "wall_ms": 1770.742654800415,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-174713-26576-000002",
+     "fact_packs": [
+      "secops",
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1831.83,
+     "wall_ms": 1845.8173274993896,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-175251-26576-000003",
+     "fact_packs": [
+      "secops",
+      "browser.act",
+      "files",
+      "browser.read"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1783.265,
+     "wall_ms": 1784.7185134887695,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-180845-5080-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3936,
+     "server_ms": 1688.138,
+     "wall_ms": 1706.2952518463135,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-181504-5080-000002",
+     "fact_packs": [
+      "chat",
+      "browser.act",
+      "files",
+      "web"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5029,
+     "server_ms": 1422.039,
+     "wall_ms": 1422.6887226104736,
+     "input_tokens": 510
+    },
+    {
+     "id": "task-20260827-181639-5080-000003",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.47,
+     "server_ms": 1701.928,
+     "wall_ms": 1702.7158737182617,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-183903-11824-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4526,
+     "server_ms": 1603.576,
+     "wall_ms": 1604.4247150421143,
+     "input_tokens": 798
+    },
+    {
+     "id": "task-20260827-184328-11824-000002",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4526,
+     "server_ms": 1613.652,
+     "wall_ms": 1625.4377365112305,
+     "input_tokens": 798
+    },
+    {
+     "id": "task-20260827-185059-11824-000003",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.47,
+     "server_ms": 1700.614,
+     "wall_ms": 1701.3516426086426,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-185803-11824-000004",
+     "fact_packs": [
+      "media"
+     ],
+     "fact_top": "media",
+     "choice": "media",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.9234,
+     "server_ms": 1332.657,
+     "wall_ms": 1354.5558452606201,
+     "input_tokens": 486
+    },
+    {
+     "id": "task-20260827-191812-30228-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.47,
+     "server_ms": 1852.568,
+     "wall_ms": 1863.4238243103027,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-192902-30228-000002",
+     "fact_packs": [
+      "secops",
+      "console",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5422,
+     "server_ms": 1352.8,
+     "wall_ms": 1353.3437252044678,
+     "input_tokens": 594
+    },
+    {
+     "id": "task-20260827-200348-11148-000001",
+     "fact_packs": [
+      "secops",
+      "console",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.47,
+     "server_ms": 1719.041,
+     "wall_ms": 1730.3204536437988,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-202117-11148-000002",
+     "fact_packs": [
+      "secops",
+      "console",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5502,
+     "server_ms": 1460.326,
+     "wall_ms": 1460.5143070220947,
+     "input_tokens": 618
+    },
+    {
+     "id": "task-20260827-203352-11148-000003",
+     "fact_packs": [
+      "secops",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3324,
+     "server_ms": 1448.183,
+     "wall_ms": 1449.3517875671387,
+     "input_tokens": 642
+    },
+    {
+     "id": "task-20260827-225226-36280-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4526,
+     "server_ms": 1611.85,
+     "wall_ms": 1613.081932067871,
+     "input_tokens": 798
+    },
+    {
+     "id": "task-20260827-230136-36280-000002",
+     "fact_packs": [
+      "secops",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4798,
+     "server_ms": 1663.443,
+     "wall_ms": 1664.6904945373535,
+     "input_tokens": 780
+    },
+    {
+     "id": "task-20260827-231142-36280-000003",
+     "fact_packs": [
+      "secops",
+      "files",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.3896,
+     "server_ms": 1363.02,
+     "wall_ms": 1364.5102977752686,
+     "input_tokens": 672
+    },
+    {
+     "id": "task-20260827-232846-36280-000004",
+     "fact_packs": [
+      "secops",
+      "files",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.4423,
+     "server_ms": 1896.46,
+     "wall_ms": 1897.6011276245117,
+     "input_tokens": 924
+    }
+   ]
+  },
+  {
+   "cases": 100,
+   "evaluated": 100,
+   "failures": [],
+   "route_accuracy": 0.21,
+   "route_hits": 21,
+   "route_accuracy_strict": 0.14,
+   "route_hits_strict": 14,
+   "majority_class": "secops",
+   "majority_baseline": 0.57,
+   "reference_accuracy": 0.21,
+   "reference_accuracy_strict": 0.14,
+   "latency_ms": {
+    "p50": 1652.732,
+    "p95": 1884.449,
+    "p99": 1915.59,
+    "mean": 1608.4435899999999,
+    "max": 1977.379
+   },
+   "wall_ms": {
+    "p50": 1670.184850692749,
+    "p95": 1887.5808715820312,
+    "mean": 1617.521665096283
+   },
+   "rps": 0.6182297409540262,
+   "input_tokens": {
+    "median": 708,
+    "max": 978
+   },
+   "state_truncated": 0,
+   "collapsed": 0,
+   "chosen_top": [
+    [
+     "browser.read",
+     62
+    ],
+    [
+     "browser.act",
+     16
+    ],
+    [
+     "secops",
+     6
+    ],
+    [
+     "files",
+     5
+    ],
+    [
+     "trade",
+     4
+    ]
+   ],
+   "per_case": [
+    {
+     "id": "task-20260815-203005-59576-000008",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "trade",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4169,
+     "server_ms": 1435.543,
+     "wall_ms": 1436.2194538116455,
+     "input_tokens": 546
+    },
+    {
+     "id": "task-20260816-001809-59576-000009",
+     "fact_packs": [
+      "browser.read"
+     ],
+     "fact_top": "browser.read",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.3753,
+     "server_ms": 1451.538,
+     "wall_ms": 1452.3441791534424,
+     "input_tokens": 558
+    },
+    {
+     "id": "task-20260816-002125-59576-000010",
+     "fact_packs": [
+      "trade",
+      "web"
+     ],
+     "fact_top": "trade",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.2625,
+     "server_ms": 1378.41,
+     "wall_ms": 1402.6415348052979,
+     "input_tokens": 468
+    },
+    {
+     "id": "task-20260816-002623-59576-000011",
+     "fact_packs": [
+      "trade"
+     ],
+     "fact_top": "trade",
+     "choice": "trade",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.8985,
+     "server_ms": 1646.612,
+     "wall_ms": 1647.1951007843018,
+     "input_tokens": 846
+    },
+    {
+     "id": "task-20260816-002806-59576-000012",
+     "fact_packs": [
+      "trade",
+      "web"
+     ],
+     "fact_top": "trade",
+     "choice": "trade",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.7578,
+     "server_ms": 1708.907,
+     "wall_ms": 1709.5956802368164,
+     "input_tokens": 846
+    },
+    {
+     "id": "task-20260816-003313-59576-000013",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "trade",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4655,
+     "server_ms": 1652.732,
+     "wall_ms": 1674.581527709961,
+     "input_tokens": 792
+    },
+    {
+     "id": "task-20260816-114824-51992-000001",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5575,
+     "server_ms": 1341.657,
+     "wall_ms": 1365.055799484253,
+     "input_tokens": 516
+    },
+    {
+     "id": "task-20260816-115456-51992-000002",
+     "fact_packs": [
+      "trade",
+      "web"
+     ],
+     "fact_top": "trade",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3371,
+     "server_ms": 1389.548,
+     "wall_ms": 1390.4094696044922,
+     "input_tokens": 468
+    },
+    {
+     "id": "task-20260816-182645-3372-000001",
+     "fact_packs": [
+      "console",
+      "web"
+     ],
+     "fact_top": "console",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6136,
+     "server_ms": 1457.612,
+     "wall_ms": 1473.2654094696045,
+     "input_tokens": 594
+    },
+    {
+     "id": "task-20260816-183209-3372-000002",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3999,
+     "server_ms": 1401.552,
+     "wall_ms": 1416.1019325256348,
+     "input_tokens": 546
+    },
+    {
+     "id": "task-20260816-183408-8928-000001",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.2603,
+     "server_ms": 1442.804,
+     "wall_ms": 1466.8006896972656,
+     "input_tokens": 570
+    },
+    {
+     "id": "task-20260816-183658-8928-000002",
+     "fact_packs": [
+      "files",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.5774,
+     "server_ms": 1326.422,
+     "wall_ms": 1327.4891376495361,
+     "input_tokens": 522
+    },
+    {
+     "id": "task-20260820-220405-41764-000001",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4993,
+     "server_ms": 1367.1,
+     "wall_ms": 1368.316650390625,
+     "input_tokens": 468
+    },
+    {
+     "id": "task-20260823-013836-28876-000001",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3093,
+     "server_ms": 1255.264,
+     "wall_ms": 1255.8178901672363,
+     "input_tokens": 480
+    },
+    {
+     "id": "task-20260823-013857-28876-000002",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4633,
+     "server_ms": 1360.864,
+     "wall_ms": 1380.8915615081787,
+     "input_tokens": 474
+    },
+    {
+     "id": "task-20260823-175738-30496-000001",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3093,
+     "server_ms": 1249.675,
+     "wall_ms": 1251.0743141174316,
+     "input_tokens": 480
+    },
+    {
+     "id": "task-20260823-175806-30496-000002",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4906,
+     "server_ms": 1393.55,
+     "wall_ms": 1394.9649333953857,
+     "input_tokens": 486
+    },
+    {
+     "id": "task-20260823-182311-31488-000001",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3555,
+     "server_ms": 1377.323,
+     "wall_ms": 1378.2057762145996,
+     "input_tokens": 558
+    },
+    {
+     "id": "task-20260823-183730-25460-000001",
+     "fact_packs": [
+      "files"
+     ],
+     "fact_top": "files",
+     "choice": "secops",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4208,
+     "server_ms": 1428.68,
+     "wall_ms": 1429.483413696289,
+     "input_tokens": 606
+    },
+    {
+     "id": "task-20260823-183810-25460-000002",
+     "fact_packs": [
+      "files"
+     ],
+     "fact_top": "files",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.6056,
+     "server_ms": 1403.506,
+     "wall_ms": 1425.051212310791,
+     "input_tokens": 588
+    },
+    {
+     "id": "task-20260826-031514-20876-000001",
+     "fact_packs": [
+      "chat",
+      "console"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4169,
+     "server_ms": 1446.085,
+     "wall_ms": 1447.1888542175293,
+     "input_tokens": 564
+    },
+    {
+     "id": "task-20260826-225943-18244-000001",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6459,
+     "server_ms": 1435.707,
+     "wall_ms": 1447.6394653320312,
+     "input_tokens": 528
+    },
+    {
+     "id": "task-20260827-002832-4148-000001",
+     "fact_packs": [
+      "files",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.9414,
+     "server_ms": 1373.184,
+     "wall_ms": 1391.7450904846191,
+     "input_tokens": 594
+    },
+    {
+     "id": "task-20260827-162603-23736-000001",
+     "fact_packs": [
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "browser.read",
+     "choice": "web",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.905,
+     "server_ms": 1541.575,
+     "wall_ms": 1562.840461730957,
+     "input_tokens": 654
+    },
+    {
+     "id": "task-20260827-162955-23736-000002",
+     "fact_packs": [
+      "web"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5113,
+     "server_ms": 1473.764,
+     "wall_ms": 1492.906093597412,
+     "input_tokens": 654
+    },
+    {
+     "id": "task-20260827-163122-23736-000003",
+     "fact_packs": [
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "browser.read",
+     "choice": "web",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.8991,
+     "server_ms": 1702.913,
+     "wall_ms": 1726.409912109375,
+     "input_tokens": 870
+    },
+    {
+     "id": "task-20260827-165956-2944-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1767.335,
+     "wall_ms": 1767.899990081787,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-170010-2944-000002",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1912.574,
+     "wall_ms": 1913.1994247436523,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-171136-23772-000001",
+     "fact_packs": [
+      "secops"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.42,
+     "server_ms": 1680.498,
+     "wall_ms": 1700.1569271087646,
+     "input_tokens": 780
+    },
+    {
+     "id": "task-20260827-171511-23900-000001",
+     "fact_packs": [
+      "secops",
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.4354,
+     "server_ms": 1804.053,
+     "wall_ms": 1804.8155307769775,
+     "input_tokens": 804
+    },
+    {
+     "id": "task-20260827-172324-23972-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1913.505,
+     "wall_ms": 1934.3717098236084,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-173524-26576-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1787.819,
+     "wall_ms": 1813.1988048553467,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-174713-26576-000002",
+     "fact_packs": [
+      "secops",
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1884.449,
+     "wall_ms": 1904.3042659759521,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-175251-26576-000003",
+     "fact_packs": [
+      "secops",
+      "browser.act",
+      "files",
+      "browser.read"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.6059,
+     "server_ms": 1794.926,
+     "wall_ms": 1795.7508563995361,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260827-180845-5080-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3936,
+     "server_ms": 1743.674,
+     "wall_ms": 1745.0404167175293,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-181504-5080-000002",
+     "fact_packs": [
+      "chat",
+      "browser.act",
+      "files",
+      "web"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5029,
+     "server_ms": 1435.118,
+     "wall_ms": 1450.0172138214111,
+     "input_tokens": 510
+    },
+    {
+     "id": "task-20260827-181639-5080-000003",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.47,
+     "server_ms": 1741.199,
+     "wall_ms": 1741.872787475586,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-183903-11824-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4526,
+     "server_ms": 1637.63,
+     "wall_ms": 1658.9975357055664,
+     "input_tokens": 798
+    },
+    {
+     "id": "task-20260827-184328-11824-000002",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4526,
+     "server_ms": 1642.313,
+     "wall_ms": 1665.3790473937988,
+     "input_tokens": 798
+    },
+    {
+     "id": "task-20260827-185059-11824-000003",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.47,
+     "server_ms": 1739.05,
+     "wall_ms": 1739.7336959838867,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-185803-11824-000004",
+     "fact_packs": [
+      "media"
+     ],
+     "fact_top": "media",
+     "choice": "media",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.9234,
+     "server_ms": 1460.379,
+     "wall_ms": 1481.8751811981201,
+     "input_tokens": 486
+    },
+    {
+     "id": "task-20260827-191812-30228-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.47,
+     "server_ms": 1741.042,
+     "wall_ms": 1760.2052688598633,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-192902-30228-000002",
+     "fact_packs": [
+      "secops",
+      "console",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5422,
+     "server_ms": 1539.386,
+     "wall_ms": 1564.8162364959717,
+     "input_tokens": 594
+    },
+    {
+     "id": "task-20260827-200348-11148-000001",
+     "fact_packs": [
+      "secops",
+      "console",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.47,
+     "server_ms": 1744.516,
+     "wall_ms": 1765.3939723968506,
+     "input_tokens": 810
+    },
+    {
+     "id": "task-20260827-202117-11148-000002",
+     "fact_packs": [
+      "secops",
+      "console",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5502,
+     "server_ms": 1456.365,
+     "wall_ms": 1479.2988300323486,
+     "input_tokens": 618
+    },
+    {
+     "id": "task-20260827-203352-11148-000003",
+     "fact_packs": [
+      "secops",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3324,
+     "server_ms": 1531.025,
+     "wall_ms": 1543.7431335449219,
+     "input_tokens": 642
+    },
+    {
+     "id": "task-20260827-225226-36280-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4526,
+     "server_ms": 1633.242,
+     "wall_ms": 1658.4343910217285,
+     "input_tokens": 798
+    },
+    {
+     "id": "task-20260827-230136-36280-000002",
+     "fact_packs": [
+      "secops",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4798,
+     "server_ms": 1692.213,
+     "wall_ms": 1692.7289962768555,
+     "input_tokens": 780
+    },
+    {
+     "id": "task-20260827-231142-36280-000003",
+     "fact_packs": [
+      "secops",
+      "files",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.3896,
+     "server_ms": 1497.505,
+     "wall_ms": 1508.4319114685059,
+     "input_tokens": 672
+    },
+    {
+     "id": "task-20260827-232846-36280-000004",
+     "fact_packs": [
+      "secops",
+      "files",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "files",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.4423,
+     "server_ms": 1783.695,
+     "wall_ms": 1784.7790718078613,
+     "input_tokens": 924
+    },
+    {
+     "id": "task-20260827-233211-36280-000005",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7033,
+     "server_ms": 1497.632,
+     "wall_ms": 1498.7859725952148,
+     "input_tokens": 600
+    },
+    {
+     "id": "task-20260827-234202-36280-000006",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.639,
+     "server_ms": 1629.015,
+     "wall_ms": 1630.6817531585693,
+     "input_tokens": 732
+    },
+    {
+     "id": "task-20260827-235004-36280-000007",
+     "fact_packs": [
+      "secops",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "secops",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.9519,
+     "server_ms": 1745.516,
+     "wall_ms": 1756.4113140106201,
+     "input_tokens": 882
+    },
+    {
+     "id": "task-20260827-235819-36280-000008",
+     "fact_packs": [
+      "secops",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5628,
+     "server_ms": 1915.59,
+     "wall_ms": 1916.9385433197021,
+     "input_tokens": 978
+    },
+    {
+     "id": "task-20260828-000905-37360-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "secops",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.9519,
+     "server_ms": 1701.556,
+     "wall_ms": 1702.521562576294,
+     "input_tokens": 882
+    },
+    {
+     "id": "task-20260828-000933-37360-000002",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "secops",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.9519,
+     "server_ms": 1698.387,
+     "wall_ms": 1717.522382736206,
+     "input_tokens": 882
+    },
+    {
+     "id": "task-20260828-004118-29140-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "secops",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.8963,
+     "server_ms": 1699.002,
+     "wall_ms": 1700.5736827850342,
+     "input_tokens": 816
+    },
+    {
+     "id": "task-20260828-011102-29140-000002",
+     "fact_packs": [
+      "secops",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "web",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4611,
+     "server_ms": 1808.659,
+     "wall_ms": 1808.729648590088,
+     "input_tokens": 876
+    },
+    {
+     "id": "task-20260828-011705-29140-000003",
+     "fact_packs": [
+      "files",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4229,
+     "server_ms": 1428.241,
+     "wall_ms": 1449.3601322174072,
+     "input_tokens": 642
+    },
+    {
+     "id": "task-20260828-012626-29140-000004",
+     "fact_packs": [
+      "files",
+      "web"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5928,
+     "server_ms": 1474.884,
+     "wall_ms": 1499.0763664245605,
+     "input_tokens": 660
+    },
+    {
+     "id": "task-20260828-013207-35128-000001",
+     "fact_packs": [
+      "secops",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5198,
+     "server_ms": 1704.433,
+     "wall_ms": 1726.3476848602295,
+     "input_tokens": 816
+    },
+    {
+     "id": "task-20260828-014418-35128-000002",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6161,
+     "server_ms": 1324.547,
+     "wall_ms": 1325.4456520080566,
+     "input_tokens": 498
+    },
+    {
+     "id": "task-20260828-015038-24672-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files",
+      "browser.act",
+      "browser.read"
+     ],
+     "fact_top": "secops",
+     "choice": "secops",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.8963,
+     "server_ms": 1784.599,
+     "wall_ms": 1785.3319644927979,
+     "input_tokens": 816
+    },
+    {
+     "id": "task-20260828-021040-42836-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5198,
+     "server_ms": 1715.088,
+     "wall_ms": 1732.8705787658691,
+     "input_tokens": 816
+    },
+    {
+     "id": "task-20260828-024245-46568-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1628.388,
+     "wall_ms": 1628.9575099945068,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260828-025214-46568-000002",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.9297,
+     "server_ms": 1701.414,
+     "wall_ms": 1702.2733688354492,
+     "input_tokens": 780
+    },
+    {
+     "id": "task-20260828-224126-45244-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1701.413,
+     "wall_ms": 1702.5964260101318,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260828-231308-45244-000002",
+     "fact_packs": [
+      "console",
+      "web"
+     ],
+     "fact_top": "console",
+     "choice": "console",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.4003,
+     "server_ms": 1547.264,
+     "wall_ms": 1548.19917678833,
+     "input_tokens": 654
+    },
+    {
+     "id": "task-20260828-233301-46064-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console",
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1560.554,
+     "wall_ms": 1576.3323307037354,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260828-235506-46064-000002",
+     "fact_packs": [
+      "chat",
+      "files"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6778,
+     "server_ms": 1371.329,
+     "wall_ms": 1372.5645542144775,
+     "input_tokens": 486
+    },
+    {
+     "id": "task-20260829-001845-46248-000001",
+     "fact_packs": [
+      "secops",
+      "console",
+      "files",
+      "browser.read",
+      "browser.act"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1858.767,
+     "wall_ms": 1859.9474430084229,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-004352-34060-000001",
+     "fact_packs": [
+      "files",
+      "secops",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1764.65,
+     "wall_ms": 1767.8730487823486,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-005659-34060-000002",
+     "fact_packs": [
+      "secops",
+      "files",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5617,
+     "server_ms": 1565.771,
+     "wall_ms": 1569.3902969360352,
+     "input_tokens": 618
+    },
+    {
+     "id": "task-20260829-012215-25452-000001",
+     "fact_packs": [
+      "files",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4866,
+     "server_ms": 1322.908,
+     "wall_ms": 1340.6336307525635,
+     "input_tokens": 480
+    },
+    {
+     "id": "task-20260829-013157-25452-000002",
+     "fact_packs": [
+      "secops",
+      "files",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5861,
+     "server_ms": 1507.598,
+     "wall_ms": 1508.742094039917,
+     "input_tokens": 486
+    },
+    {
+     "id": "task-20260829-015901-25452-000003",
+     "fact_packs": [
+      "files",
+      "secops",
+      "console",
+      "web"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1757.584,
+     "wall_ms": 1758.267879486084,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-022428-25452-000004",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.494,
+     "server_ms": 1775.57,
+     "wall_ms": 1776.3102054595947,
+     "input_tokens": 726
+    },
+    {
+     "id": "task-20260829-083141-25452-000005",
+     "fact_packs": [
+      "files",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5116,
+     "server_ms": 1669.189,
+     "wall_ms": 1670.184850692749,
+     "input_tokens": 714
+    },
+    {
+     "id": "task-20260829-084952-25452-000006",
+     "fact_packs": [
+      "web",
+      "files"
+     ],
+     "fact_top": "web",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3352,
+     "server_ms": 1640.343,
+     "wall_ms": 1640.679121017456,
+     "input_tokens": 702
+    },
+    {
+     "id": "task-20260829-092755-25452-000007",
+     "fact_packs": [
+      "files",
+      "console",
+      "web"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5964,
+     "server_ms": 1742.623,
+     "wall_ms": 1743.7140941619873,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-130909-44440-000001",
+     "fact_packs": [
+      "secops",
+      "files",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1723.557,
+     "wall_ms": 1741.5943145751953,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-133402-6856-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1716.045,
+     "wall_ms": 1716.3794040679932,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-134613-23720-000001",
+     "fact_packs": [
+      "chat",
+      "secops",
+      "console",
+      "files"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1721.362,
+     "wall_ms": 1721.4257717132568,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-142823-23720-000002",
+     "fact_packs": [
+      "files",
+      "secops",
+      "web",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1735.993,
+     "wall_ms": 1750.626564025879,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-144928-23720-000003",
+     "fact_packs": [
+      "files",
+      "secops",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1693.155,
+     "wall_ms": 1694.1723823547363,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-150426-23720-000004",
+     "fact_packs": [
+      "console"
+     ],
+     "fact_top": "console",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6039,
+     "server_ms": 1461.196,
+     "wall_ms": 1462.97025680542,
+     "input_tokens": 564
+    },
+    {
+     "id": "task-20260829-151515-23720-000005",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5745,
+     "server_ms": 1451.053,
+     "wall_ms": 1450.9668350219727,
+     "input_tokens": 486
+    },
+    {
+     "id": "task-20260829-161105-46384-000001",
+     "fact_packs": [
+      "secops",
+      "console",
+      "files",
+      "browser.read",
+      "web"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5239,
+     "server_ms": 1977.379,
+     "wall_ms": 1978.1711101531982,
+     "input_tokens": 828
+    },
+    {
+     "id": "task-20260829-164036-46384-000002",
+     "fact_packs": [
+      "console",
+      "secops",
+      "files",
+      "web"
+     ],
+     "fact_top": "console",
+     "choice": "system",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.4025,
+     "server_ms": 1743.668,
+     "wall_ms": 1744.1861629486084,
+     "input_tokens": 792
+    },
+    {
+     "id": "task-20260829-165951-46384-000003",
+     "fact_packs": [
+      "files",
+      "secops"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1697.383,
+     "wall_ms": 1718.942403793335,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-172326-46384-000004",
+     "fact_packs": [
+      "secops",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1753.179,
+     "wall_ms": 1774.5695114135742,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-172832-46384-000005",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.act",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.6002,
+     "server_ms": 1840.065,
+     "wall_ms": 1857.01584815979,
+     "input_tokens": 822
+    },
+    {
+     "id": "task-20260829-175046-46384-000006",
+     "fact_packs": [
+      "browser.read"
+     ],
+     "fact_top": "browser.read",
+     "choice": "browser.read",
+     "hit": true,
+     "strict_hit": true,
+     "answer_confidence": 0.404,
+     "server_ms": 1310.056,
+     "wall_ms": 1332.7052593231201,
+     "input_tokens": 474
+    },
+    {
+     "id": "task-20260829-183013-44644-000001",
+     "fact_packs": [
+      "files",
+      "secops",
+      "console",
+      "web"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1836.806,
+     "wall_ms": 1851.0279655456543,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-184415-44644-000002",
+     "fact_packs": [
+      "files",
+      "console"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3247,
+     "server_ms": 1407.626,
+     "wall_ms": 1407.7785015106201,
+     "input_tokens": 534
+    },
+    {
+     "id": "task-20260829-185356-44644-000003",
+     "fact_packs": [
+      "chat"
+     ],
+     "fact_top": "chat",
+     "choice": "system",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.3793,
+     "server_ms": 1886.949,
+     "wall_ms": 1887.5808715820312,
+     "input_tokens": 846
+    },
+    {
+     "id": "task-20260829-185910-44644-000004",
+     "fact_packs": [
+      "secops",
+      "console",
+      "files"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.5046,
+     "server_ms": 1689.977,
+     "wall_ms": 1690.5598640441895,
+     "input_tokens": 726
+    },
+    {
+     "id": "task-20260829-191914-51808-000001",
+     "fact_packs": [
+      "secops",
+      "web",
+      "files",
+      "console"
+     ],
+     "fact_top": "secops",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1706.865,
+     "wall_ms": 1708.1823348999023,
+     "input_tokens": 708
+    },
+    {
+     "id": "task-20260829-193025-51808-000002",
+     "fact_packs": [
+      "files"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.9373,
+     "server_ms": 1539.29,
+     "wall_ms": 1552.6680946350098,
+     "input_tokens": 636
+    },
+    {
+     "id": "task-20260829-193901-49232-000001",
+     "fact_packs": [
+      "files",
+      "secops"
+     ],
+     "fact_top": "files",
+     "choice": "browser.read",
+     "hit": false,
+     "strict_hit": false,
+     "answer_confidence": 0.7114,
+     "server_ms": 1704.203,
+     "wall_ms": 1704.6990394592285,
+     "input_tokens": 708
+    }
+   ]
+  }
+ ]
+}

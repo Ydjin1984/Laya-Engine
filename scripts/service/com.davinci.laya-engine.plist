@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  launchd agent for Laya Engine (macOS).
+  Installed by scripts/install.sh --service into ~/Library/LaunchAgents/.
+  __ROOT__ and __PORT__ are substituted by the installer.
+  Device: __DEVICE__ (macOS has no CUDA; cuda here means "ask for the GPU" and
+  the engine will refuse to start rather than silently run on CPU -- pass --cpu
+  to install.sh on a Mac).
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.davinci.laya-engine</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>__ROOT__/scripts/laya.sh</string>
+        <string>run</string>
+        <string>--port</string>
+        <string>__PORT__</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>__ROOT__</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>__ROOT__/logs/laya-launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>__ROOT__/logs/laya-launchd.log</string>
+</dict>
+</plist>
