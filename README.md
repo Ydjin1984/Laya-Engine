@@ -13,7 +13,8 @@ Go + ONNX Runtime · ~322M параметров · GPU или CPU · без Pyth
 [![Model](https://img.shields.io/badge/Laya-322M%20fp16-FF6F61?style=flat-square)](https://huggingface.co/convaiinnovations/laya)
 [![Platforms](https://img.shields.io/badge/platforms-Windows%20%7C%20Linux%20%7C%20macOS%20%7C%20Docker-2ea44f?style=flat-square)](#быстрый-старт--quick-start)
 [![Tokens](https://img.shields.io/badge/A%2FB%20big%20log-%E2%88%9248%25%20tokens%20%C2%B7%20%E2%88%9258%25%20peak-8b5cf6?style=flat-square)](docs/BENCHMARKS.md)
-[![CI](https://img.shields.io/badge/CI-3%20OS%20build%20%2B%20test-2088FF?style=flat-square&logo=githubactions&logoColor=white)](.github/workflows/ci.yml)
+[![CI](https://github.com/Ydjin1984/Laya-Engine/actions/workflows/ci.yml/badge.svg)](https://github.com/Ydjin1984/Laya-Engine/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Ydjin1984/Laya-Engine?style=flat-square&label=release)](https://github.com/Ydjin1984/Laya-Engine/releases/latest)
 
 <a href="#-русский">🇷🇺 Русский</a> · <a href="#-english">🇬🇧 English</a>
 
