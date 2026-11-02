@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laya Work — локальные решения</title>
+  <link rel="stylesheet" href="/work/assets/styles.css">
+  <script defer src="/work/assets/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">LAYA</span>
+      <span class="brand-sub">WORK</span>
+      <span class="brand-dot" id="server-dot" title="состояние сервера"></span>
+    </div>
+    <div class="server-meta">
+      <span id="server-state">проверка…</span>
+      <span class="sep">·</span>
+      <span id="server-checkpoint">checkpoint —</span>
+      <span class="sep">·</span>
+      <span id="server-device">device —</span>
+      <span class="sep">·</span>
+      <span id="server-uptime">uptime —</span>
+      <a class="ghost-link" href="/info" target="_blank" rel="noreferrer">/info</a>
+    </div>
+  </header>
+
+  <div id="demo-banner" class="banner banner-demo" hidden>
+    Демо-данные включены явно (<code>-work-demo</code>). В обычном режиме они не показываются.
+  </div>
+  <div id="store-banner" class="banner banner-warn" hidden></div>
+
+  <main class="page">
+    <section class="section" aria-labelledby="summary-title">
+      <div class="section-head">
+        <h1 id="summary-title">Сводка решений</h1>
+        <div class="range-hint" id="range-hint"></div>
+      </div>
+      <div class="cards" id="summary-cards">
+        <article class="card card-accent"><span class="card-label">Inference-вызовы</span><strong id="kpi-inference">—</strong><span class="card-note">уникальные call_id</span></article>
+        <article class="card"><span class="card-label">Решения правилами</span><strong id="kpi-rule">—</strong><span class="card-note">Laya не вызывалась</span></article>
+        <article class="card"><span class="card-label">Ошибки / таймауты</span><strong id="kpi-errors">—</strong><span class="card-note" id="kpi-errors-note">inference error + timeout</span></article>
+        <article class="card"><span class="card-label">Fallback</span><strong id="kpi-fallback">—</strong><span class="card-note">без ответа модели</span></article>
+        <article class="card"><span class="card-label">p50 inference</span><strong id="kpi-p50-inf">—</strong><span class="card-note">мс</span></article>
+        <article class="card"><span class="card-label">p95 inference</span><strong id="kpi-p95-inf">—</strong><span class="card-note">мс</span></article>
+        <article class="card"><span class="card-label">p50 операции</span><strong id="kpi-p50-total">—</strong><span class="card-note">мс</span></article>
+        <article class="card"><span class="card-label">p95 операции</span><strong id="kpi-p95-total">—</strong><span class="card-note">мс</span></article>
+        <article class="card"><span class="card-label">Усечения входа</span><strong id="kpi-truncated">—</strong><span class="card-note">клиент или движок</span></article>
+        <article class="card"><span class="card-label">Потеряно событий</span><strong id="kpi-dropped">—</strong><span class="card-note">очередь / spool</span></article>
+      </div>
+    </section>
+
+    <section class="section charts" aria-labelledby="charts-title">
+      <div class="section-head"><h2 id="charts-title">Динамика и распределения</h2></div>
+      <div class="chart-grid">
+        <figure class="chart-card chart-wide">
+          <figcaption>Запросы по времени <span class="muted">— engine-вызовы, policy и ошибки</span></figcaption>
+          <div class="chart-box" id="chart-timeline"></div>
+        </figure>
+        <figure class="chart-card">
+          <figcaption>Выбранные ответы <span class="muted">— в пределах одного вопроса</span></figcaption>
+          <div class="chart-box" id="chart-selected"></div>
+        </figure>
+        <figure class="chart-card">
+          <figcaption>Статусы событий</figcaption>
+          <div class="chart-box" id="chart-status"></div>
+        </figure>
+        <figure class="chart-card">
+          <figcaption>Задержки p50 / p95</figcaption>
+          <div class="chart-box" id="chart-latency"></div>
+        </figure>
+        <figure class="chart-card">
+          <figcaption>Операции</figcaption>
+          <div class="chart-box" id="chart-operations"></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="accuracy-title">
+      <div class="section-head">
+        <h2 id="accuracy-title">Точность по разметке</h2>
+        <span class="muted">только размеченные вопросы; уверенность модели — не правильность</span>
+      </div>
+      <div class="accuracy-grid">
+        <div class="card accuracy-card">
+          <div id="accuracy-headline" class="accuracy-headline">—</div>
+          <div id="accuracy-note" class="muted"></div>
+          <div id="accuracy-mae" class="muted"></div>
+        </div>
+        <div class="card confusion-card">
+          <div class="card-title">Confusion matrix</div>
+          <div id="confusion" class="confusion-wrap muted">нет размеченных примеров</div>
+        </div>
+        <div class="card perclass-card">
+          <div class="card-title">Precision / recall</div>
+          <div id="per-class" class="muted">нет данных</div>
+        </div>
+      </div>
+      <div class="savings" id="savings-wrap" hidden>
+        <div class="card-title">Сокращение выдачи инструмента</div>
+        <div id="savings" class="savings-grid"></div>
+        <div class="muted small">Это размер выдачи инструмента, а не экономия сессии или стоимости. Дочитывания учитываются по chunk_id.</div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="feed-title">
+      <div class="section-head">
+        <h2 id="feed-title">Лента событий</h2>
+        <div class="feed-actions">
+          <span id="stream-state" class="stream-state">SSE: подключение…</span>
+          <button id="pause-btn" class="btn" type="button" aria-pressed="false">Пауза</button>
+          <button id="new-events-btn" class="btn btn-accent" type="button" hidden>0 новых</button>
+          <button id="refresh-btn" class="btn" type="button">Обновить</button>
+          <a id="export-link" class="btn" href="/api/work/v1/export?range=24h&format=jsonl">Экспорт JSONL</a>
+          <label class="btn btn-file">Импорт JSONL<input id="import-file" type="file" accept=".jsonl,.json,application/x-ndjson" hidden></label>
+        </div>
+      </div>
+
+      <div class="filters" id="filters">
+        <label>Период
+          <select id="f-range">
+            <option value="1h">1 час</option>
+            <option value="6h">6 часов</option>
+            <option value="24h" selected>24 часа</option>
+            <option value="7d">7 дней</option>
+            <option value="30d">30 дней</option>
+            <option value="all">Всё</option>
+          </select>
+        </label>
+        <label>Сессия <input id="f-session" type="text" placeholder="sess_…" autocomplete="off"></label>
+        <label>Операция <input id="f-operation" type="text" list="operations-list" placeholder="laya_search" autocomplete="off"></label>
+        <datalist id="operations-list"></datalist>
+        <label>Статус
+          <select id="f-status">
+            <option value="">все</option>
+            <option value="completed">completed</option>
+            <option value="error">error</option>
+            <option value="timeout">timeout</option>
+            <option value="fallback">fallback</option>
+            <option value="skipped">skipped</option>
+          </select>
+        </label>
+        <label>Checkpoint <input id="f-checkpoint" type="text" placeholder="multilingual-fp16-…" autocomplete="off"></label>
+        <label class="check"><input id="f-error" type="checkbox"> только ошибки</label>
+        <label class="check"><input id="f-fallback" type="checkbox"> только fallback</label>
+        <label class="check"><input id="f-truncated" type="checkbox"> только усечённые</label>
+        <label class="check"><input id="f-labeled" type="checkbox"> только размеченные</label>
+        <label class="check"><input id="f-demo" type="checkbox"> демо</label>
+        <button id="f-reset" class="btn btn-quiet" type="button">Сбросить</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="events" id="events-table">
+          <thead>
+            <tr>
+              <th>Время</th>
+              <th>Сессия</th>
+              <th>Операция</th>
+              <th>Краткий вход</th>
+              <th>Выбор Laya</th>
+              <th>Итог плагина</th>
+              <th>Задержка</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody id="events-body"></tbody>
+        </table>
+        <div id="empty-state" class="empty-state" hidden>
+          <strong>Пока нет событий.</strong>
+          <span>Выполните <code>laya_search</code> или <code>laya_decide</code> — запись появится здесь.</span>
+        </div>
+        <div class="load-more"><button id="load-more" class="btn" type="button" hidden>Показать ещё</button></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="drawer-overlay" class="drawer-overlay" hidden></div>
+  <aside id="drawer" class="drawer" aria-hidden="true" aria-label="Карточка события">
+    <div class="drawer-head">
+      <div>
+        <div class="eyebrow" id="detail-eyebrow">событие</div>
+        <h2 id="detail-title">—</h2>
+      </div>
+      <div class="drawer-actions">
+        <button id="copy-id" class="btn" type="button">Копировать ID</button>
+        <button id="close-drawer" class="btn btn-quiet" type="button">Закрыть</button>
+      </div>
+    </div>
+    <div id="detail-body" class="drawer-body"></div>
+  </aside>
+
+  <div id="toast" class="toast" hidden></div>
+</body>
+</html>

@@ -77,3 +77,6 @@ node_modules/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# --- Laya Work runtime data (БД, токен, spool) --------------------
+data/

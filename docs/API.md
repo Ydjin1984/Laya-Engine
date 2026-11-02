@@ -22,9 +22,39 @@
 | POST | `/benchmark` | замер p50/p95/p99 и пропускной способности |
 | GET | `/v1/models` | Jev-совместимый список модели (id `laya-go`, чекпоинт, лимиты) |
 | POST | `/v1/systemone` | Jev-совместимая форма ответа (та же логика, что `/decide`) |
+| GET | `/work` | панель фактических решений (UI, только loopback) |
+| GET | `/api/work/v1/overview` | сводка, графики, accuracy, savings |
+| GET | `/api/work/v1/events` | лента событий с фильтрами |
+| GET | `/api/work/v1/events/{id}` | событие, метки, связанные события |
+| GET | `/api/work/v1/stream` | SSE новых событий |
+| POST | `/api/work/v1/ingest` | приём событий плагина (локальный токен) |
+| POST | `/api/work/v1/labels` | ручная разметка `call_id/question_id` |
+| GET | `/api/work/v1/export` | экспорт JSONL/CSV |
+| POST | `/api/work/v1/import` | импорт старых JSONL с дедупликацией |
 
 Родной контракт — `/decide`: он полнее (порядок вопросов, бюджеты, телеметрия
 на каждый вопрос).
+
+## Laya Work (`/work`)
+
+Панель показывает фактические вызовы модели и решения плагина, не делая новых
+вызовов Laya. Подробности, схема событий, безопасность, retention и откат —
+в `docs/WORK.md`.
+
+- `GET /work` → `/work/`; статика встроена через `go:embed`.
+- `GET /api/work/v1/overview?range=24h` — сводка, p50/p95, timeline,
+  распределения, accuracy только по размеченным вопросам, сокращение выдачи.
+- `GET /api/work/v1/events?range=24h&limit=50&before_seq=...` — лента.
+- `GET /api/work/v1/events/{event_id}` — карточка и связанные события.
+- `GET /api/work/v1/stream?since=...` — SSE с `Last-Event-ID`.
+- `POST /api/work/v1/ingest` — события плагина, требует `X-Laya-Work-Token`.
+- `POST /api/work/v1/labels` — `{call_id, question_id, expected, author,
+  comment, basis}`.
+- `POST /api/work/v1/import` — JSONL старых `metrics/decisions-*.jsonl`.
+
+Work-маршруты доступны только с loopback и только при loopback-`Host`; при
+`-addr` не-loopback панель отключается. `-work=false` выключает запись и
+маршруты, не удаляя историю.
 
 ## Типы вопросов
 

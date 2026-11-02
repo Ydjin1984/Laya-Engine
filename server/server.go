@@ -41,6 +41,39 @@ type Server struct {
 	checkpoint engine.Checkpoint
 
 	info ModelInfo
+
+	// work — приёмник событий /work; nil, если панель отключена.
+	work              WorkRecorder
+	workAPI           *WorkAPI
+	workMaxInputChars int
+}
+
+// WorkRecorder — минимальный интерфейс приёмника событий (для тестов).
+type WorkRecorder interface {
+	Record(WorkEvent) bool
+}
+
+// AttachWork подключает панель. nil — панель выключена, /decide работает как
+// раньше.
+func (s *Server) AttachWork(api *WorkAPI) {
+	s.workAPI = api
+	if api != nil {
+		s.work = api.store
+		s.workMaxInputChars = api.cfg.MaxInputChars
+	}
+}
+
+// WorkStatus — снимок состояния для шапки /work.
+func (s *Server) WorkStatus() WorkStatus {
+	return WorkStatus{
+		Ready:      atomic.LoadInt32(&s.ready) == 1,
+		Device:     s.model.Device(),
+		Checkpoint: s.checkpoint.ID(),
+		Version:    APIVersion,
+		UptimeS:    int(time.Since(s.started).Seconds()),
+		Model:      s.info,
+		Stats:      s.model.Stats(),
+	}
 }
 
 // ModelInfo — что именно загружено.
@@ -76,6 +109,9 @@ func (s *Server) Routes(mux *http.ServeMux) {
 	// инструменты (скрипты discovery, чужие обёртки) написаны под Jev-форму.
 	mux.HandleFunc("/v1/models", s.handleV1Models)
 	mux.HandleFunc("/v1/systemone", s.handleV1Systemone)
+	if s.workAPI != nil {
+		s.workAPI.Register(mux)
+	}
 }
 
 // DecideRequest — тело /decide.
@@ -133,7 +169,7 @@ func (s *Server) handleReady(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleInfo(w http.ResponseWriter, r *http.Request) {
 	st := s.model.Stats()
-	writeJSON(w, http.StatusOK, map[string]any{
+	payload := map[string]any{
 		"version":         APIVersion,
 		"ready":           atomic.LoadInt32(&s.ready) == 1,
 		"device":          s.model.Device(),
@@ -143,28 +179,37 @@ func (s *Server) handleInfo(w http.ResponseWriter, r *http.Request) {
 		"stats":           st,
 		"uptime_s":        int(time.Since(s.started).Seconds()),
 		"tokenizer_vocab": s.model.Tokenizer().VocabSize(),
-	})
+	}
+	if s.workAPI != nil {
+		payload["work"] = s.workAPI.Info()
+	}
+	writeJSON(w, http.StatusOK, payload)
 }
 
 func (s *Server) handleDecide(w http.ResponseWriter, r *http.Request) {
+	handlerStart := time.Now()
 	if r.Method != http.MethodPost {
 		writeError(w, http.StatusMethodNotAllowed, "method", "нужен POST")
 		return
 	}
+	meta := workMetaFromRequest(r, "decide")
 	// Невалидный JSON — это ошибка клиента, но тексты ошибок не должны содержать
 	// сырой ввод: он уходит в логи сервиса.
 	r.Body = http.MaxBytesReader(w, r.Body, 4<<20)
 	var req DecideRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		s.recordEngineError(meta, "", nil, nil, handlerStart, "invalid_json", false)
 		writeError(w, http.StatusBadRequest, "invalid_json", "тело должно быть JSON")
 		return
 	}
 	if req.State == "" {
+		s.recordEngineError(meta, "", nil, nil, handlerStart, "invalid_json", false)
 		writeError(w, http.StatusBadRequest, "invalid_json", "нужно поле state")
 		return
 	}
 	ids, questions, err := ParseQuestions(req.Questions)
 	if err != nil {
+		s.recordEngineError(meta, req.State, nil, nil, handlerStart, "invalid_questions", false)
 		writeError(w, http.StatusBadRequest, "invalid_questions", err.Error())
 		return
 	}
@@ -180,9 +225,11 @@ func (s *Server) handleDecide(w http.ResponseWriter, r *http.Request) {
 	res, err := s.model.DecideWith(req.State, questions, clampRequestMaxLen(req.MaxLen))
 	if err != nil {
 		log.Printf("[LAYA] decide: %v", err)
+		s.recordEngineError(meta, req.State, ids, questions, handlerStart, "inference_failed", true)
 		writeError(w, http.StatusInternalServerError, "inference_failed", "инференс не выполнен")
 		return
 	}
+	s.recordEngineCall(meta, req.State, ids, questions, res, handlerStart, req.MaxLen)
 
 	answers := make(map[string]engine.Answer, len(ids))
 	for i, id := range ids {
@@ -336,27 +383,33 @@ type V1SystemoneRequest struct {
 
 // handleV1Systemone — Jev-совместимая форма ответа на типизированные вопросы.
 func (s *Server) handleV1Systemone(w http.ResponseWriter, r *http.Request) {
+	handlerStart := time.Now()
 	if r.Method != http.MethodPost {
 		writeError(w, http.StatusMethodNotAllowed, "method", "нужен POST")
 		return
 	}
+	meta := workMetaFromRequest(r, "systemone")
 	r.Body = http.MaxBytesReader(w, r.Body, 4<<20)
 	var req V1SystemoneRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		s.recordEngineError(meta, "", nil, nil, handlerStart, "invalid_json", false)
 		writeError(w, http.StatusBadRequest, "invalid_json", "тело должно быть JSON")
 		return
 	}
 	if req.Model != "" && req.Model != "laya-go" && !strings.HasPrefix(req.Model, "laya") {
+		s.recordEngineError(meta, "", nil, nil, handlerStart, "unknown_model", false)
 		writeError(w, http.StatusNotFound, "unknown_model",
 			fmt.Sprintf("модель %q не обслуживается; см. GET /v1/models", req.Model))
 		return
 	}
 	if req.State == "" {
+		s.recordEngineError(meta, "", nil, nil, handlerStart, "invalid_json", false)
 		writeError(w, http.StatusBadRequest, "invalid_json", "нужно поле state")
 		return
 	}
 	ids, questions, err := ParseQuestions(req.Questions)
 	if err != nil {
+		s.recordEngineError(meta, req.State, nil, nil, handlerStart, "invalid_questions", false)
 		writeError(w, http.StatusBadRequest, "invalid_questions", err.Error())
 		return
 	}
@@ -364,9 +417,11 @@ func (s *Server) handleV1Systemone(w http.ResponseWriter, r *http.Request) {
 	res, err := s.model.DecideWith(req.State, questions, clampRequestMaxLen(req.MaxLen))
 	if err != nil {
 		log.Printf("[LAYA] systemone: %v", err)
+		s.recordEngineError(meta, req.State, ids, questions, handlerStart, "inference_failed", true)
 		writeError(w, http.StatusInternalServerError, "inference_failed", "инференс не выполнен")
 		return
 	}
+	s.recordEngineCall(meta, req.State, ids, questions, res, handlerStart, req.MaxLen)
 	answers := make(map[string]engine.Answer, len(ids))
 	for i, id := range ids {
 		a := res.Answers[i]

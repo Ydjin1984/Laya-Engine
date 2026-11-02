@@ -150,7 +150,7 @@ Settings → Plugin Management → Discover → «+» → GitHub repository
 
 Или скриптом: `./scripts/install-plugin.sh` (Linux/macOS) /
 `powershell -ExecutionPolicy Bypass -File scripts\windows\install-plugin.ps1`.
-Репозиторий плагина: <https://github.com/Ydjin1984/davinci-laya-zcode>.
+Репозиторий плагина: <https://github.com/Ydjin1984/laya-zcode-stack>.
 Подробности: [integrations/zcode/README.md](integrations/zcode/README.md).
 
 ## API за минуту
@@ -163,6 +163,7 @@ Settings → Plugin Management → Discover → «+» → GitHub repository
 | GET | `/ready` · `/health` | готовность / живость |
 | POST | `/benchmark` | p50/p95/p99 на вашей машине |
 | GET/POST | `/v1/models` · `/v1/systemone` | Jev-совместимый фасад |
+| GET | `/work` | панель фактических решений, ответов, политики и проверок |
 
 ```bash
 curl -s http://127.0.0.1:8095/decide -H 'Content-Type: application/json' -d '{
@@ -179,6 +180,15 @@ curl -s http://127.0.0.1:8095/decide -H 'Content-Type: application/json' -d '{
 порог — по ней) и **правила формулировки вопросов** (модель 322M чувствительна к
 формулировке: короткое «изменяет ли запрос состояние?» даёт ложный ноль, полное
 утверждение о действии — 0.912): [docs/API.md](docs/API.md).
+
+### Панель `/work`
+
+`http://127.0.0.1:8095/work` показывает реальные вызовы Laya: вход, вопросы,
+ответы, политику плагина, задержки, проверки и ручную разметку. Данные — в
+локальном SQLite `data/work.db`; hook пишет события в `data/work-spool` и не
+ждёт сеть, поэтому панель не замедляет быстрые вызовы. Точность считается
+только по размеченным вопросам; уверенность модели и успешность `npm test` —
+не одно и то же. Подробности, безопасность и откат: [docs/WORK.md](docs/WORK.md).
 
 ## Производительность
 

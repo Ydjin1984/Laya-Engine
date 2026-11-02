@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -35,6 +36,15 @@ func envStr(name, def string) string {
 func envInt(name string, def int) int {
 	if v := os.Getenv(name); v != "" {
 		if n, err := strconv.Atoi(v); err == nil {
+			return n
+		}
+	}
+	return def
+}
+
+func envInt64(name string, def int64) int64 {
+	if v := os.Getenv(name); v != "" {
+		if n, err := strconv.ParseInt(v, 10, 64); err == nil {
 			return n
 		}
 	}
@@ -72,6 +82,16 @@ func main() {
 		cpuFallb  = flag.Bool("allow-cpu-fallback", envBool("LAYA_CPU_FALLBACK", false), "разрешить тихий откат на CPU, если CUDA не поднялась")
 		warmup    = flag.Bool("warmup", envBool("LAYA_WARMUP", true), "прогреть видеокарту одним вызовом после загрузки модели")
 		selftest  = flag.Bool("selftest", false, "прогнать один вопрос и выйти (проверка установки)")
+
+		workEnabled   = flag.Bool("work", envBool("LAYA_WORK", true), "включить панель /work (только для loopback-адреса)")
+		workDB        = flag.String("work-db", envStr("LAYA_WORK_DB", filepath.Join("data", "work.db")), "SQLite-файл панели /work")
+		workTokenFile = flag.String("work-token-file", envStr("LAYA_WORK_TOKEN_FILE", filepath.Join("data", "work-token")), "файл локального токена записи (сам токен в аргументах не передаётся)")
+		workSpoolDir  = flag.String("work-spool-dir", envStr("LAYA_WORK_SPOOL_DIR", filepath.Join("data", "work-spool")), "каталог spool-событий плагина")
+		workDemo      = flag.Bool("work-demo", envBool("LAYA_WORK_DEMO", false), "показать демонстрационные данные (по умолчанию выключено)")
+		workKeepDays  = flag.Int("work-keep-days", envInt("LAYA_WORK_KEEP_DAYS", 30), "сколько дней хранить события /work")
+		workMaxEvents = flag.Int("work-max-events", envInt("LAYA_WORK_MAX_EVENTS", 50_000), "максимум событий /work")
+		workMaxBytes  = flag.Int64("work-max-bytes", envInt64("LAYA_WORK_MAX_BYTES", 512<<20), "лимит объёма SQLite /work в байтах")
+		workMaxInput  = flag.Int("work-max-input-chars", envInt("LAYA_WORK_MAX_INPUT_CHARS", 65_536), "лимит текста входа в событии /work")
 	)
 	flag.Parse()
 
@@ -159,6 +179,49 @@ func main() {
 	}
 
 	srv := server.New(m, info)
+	if *workEnabled {
+		if !loopbackAddr(*addr) {
+			// Не ограничиваемся предупреждением: панель не должна оказаться в
+			// сети при случайном bind на 0.0.0.0.
+			log.Printf("[LAYA] work: адрес %s не loopback — панель отключена", *addr)
+		} else {
+			store, err := server.OpenWorkStore(server.WorkStoreConfig{
+				DBPath:        *workDB,
+				KeepDays:      *workKeepDays,
+				MaxEvents:     *workMaxEvents,
+				MaxBytes:      *workMaxBytes,
+				MaxInputChars: *workMaxInput,
+				SpoolDir:      *workSpoolDir,
+			})
+			if err != nil {
+				log.Printf("[LAYA] work отключён: %v", err)
+			} else {
+				defer store.Close()
+				workCtx, workCancel := context.WithCancel(context.Background())
+				defer workCancel()
+				if *workDemo {
+					store.SeedDemo()
+				} else {
+					store.DeleteDemo()
+				}
+				api, err := server.NewWorkAPI(store, server.WorkConfig{
+					Token:         os.Getenv("LAYA_WORK_TOKEN"),
+					TokenFile:     *workTokenFile,
+					MaxInputChars: *workMaxInput,
+					Demo:          *workDemo,
+					BindAddr:      *addr,
+				}, srv.WorkStatus)
+				if err != nil {
+					log.Printf("[LAYA] work отключён: %v", err)
+				} else {
+					srv.AttachWork(api)
+					store.StartSpool(workCtx, *workSpoolDir)
+					go store.Maintain(workCtx)
+					log.Printf("[LAYA] work: http://%s/work (db %s, spool %s)", *addr, *workDB, *workSpoolDir)
+				}
+			}
+		}
+	}
 	mux := http.NewServeMux()
 	srv.Routes(mux)
 
@@ -302,4 +365,19 @@ func setupLog(path string) error {
 	log.SetFlags(log.LstdFlags)
 	log.Printf("[LAYA] --- запуск %s, лог: %s", time.Now().Format("2006-01-02 15:04:05"), path)
 	return nil
+}
+
+// loopbackAddr проверяет, что сервис слушает только loopback. Для /work это
+// обязательное условие: иначе страница и API оказались бы доступны из сети.
+func loopbackAddr(addr string) bool {
+	host := addr
+	if h, _, err := net.SplitHostPort(addr); err == nil {
+		host = h
+	}
+	host = strings.Trim(strings.ToLower(host), "[]")
+	if host == "localhost" {
+		return true
+	}
+	ip := net.ParseIP(host)
+	return ip != nil && ip.IsLoopback()
 }
