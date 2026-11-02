@@ -128,6 +128,32 @@ accuracy = совпадения / число размеченных вопрос
 `LAYA_WORK_TOKEN` (env) позволяет задать токен без файла; **флага токена нет
 специально**, чтобы он не попадал в список аргументов процесса.
 
+## Подключение плагина на новой машине
+
+После установки плагина `davinci-laya-decisions@laya-zcode-stack` (0.2.2+) в его
+`config.json` нужны пути к обмену с движком. Файл:
+
+```text
+%USERPROFILE%\.zcode\cli\plugins\data\davinci-laya-decisions@laya-zcode-stack\config.json
+```
+
+Добавьте блок (пути — абсолютные, подставьте каталог движка):
+
+```json
+"work": {
+  "enabled": true,
+  "url": "http://127.0.0.1:8095",
+  "spoolDir": "E:\\Laya_Engine\\data\\work-spool",
+  "tokenFile": "E:\\Laya_Engine\\data\\work-token",
+  "timeoutMs": 400,
+  "maxSpoolFiles": 5000
+}
+```
+
+`work-spool` и `work-token` создаёт сам сервер при старте; плагин только читает
+токен и пишет файлы. После правки конфига начните новую сессию ZCode: хуки и MCP
+перечитывают конфиг при запуске.
+
 ## Откат
 
 1. `-work=false` — панель и запись отключаются, `/decide` работает как раньше;
